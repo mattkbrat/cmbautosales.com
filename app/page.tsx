@@ -21,7 +21,7 @@ export default function Home() {
 					<li
 						className={clsx("w-max py-3 px-4 flex-1 lg:flex-none text-center", {
 							"border-primary-50 font-bold border-b-2 lg:border-b-0 lg:border-r-2":
-								hash === "home",
+								!hash || hash === "home",
 						})}
 					>
 						<Link href="#home">Home</Link>
@@ -64,8 +64,28 @@ export default function Home() {
 						rel="noreferrer"
 					>
 						<span className="text-surface-900 uppercase flex flex-row gap-2">
-							<span>Submit Credit Application</span>
+							<span>Submit A Credit Application</span>
 							<span className="text-xs self-start flex">[_↗]</span>
+						</span>
+					</a>
+					<a
+						className="rounded-full p-4 bg-success-200/5 w-max font-bold shadow-primary-50 shadow-sm hover:bg-surface-900 outline-primary-50 outline-4 transition-colors border-2 border-success-200"
+						href="https://buy.stripe.com/14k4iG6aF3VBfgQcMM"
+						target="_blank"
+						rel="noreferrer"
+					>
+						<span className="text-surface-100 uppercase flex flex-row gap-2">
+							<span>Make a Payment</span>
+							<span className="text-xs self-start flex">[_↗]</span>
+						</span>
+					</a>
+					<a
+						className="rounded-full p-4 w-max font-bold shadow-primary-50 shadow-sm hover:bg-surface-900 outline-primary-50 border-2 transition-colors "
+						href="tel:+9705676156"
+					>
+						<span className="text-surface-100 uppercase flex flex-row gap-2">
+							<span>Contact Us </span>
+							<span className="text-sm self-start flex">☎</span>
 						</span>
 					</a>
 				</section>
