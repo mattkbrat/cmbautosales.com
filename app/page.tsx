@@ -73,11 +73,11 @@ export default function Home() {
         </section>
         <section
           id="contact"
-          className="bg-secondary-800/85 min-h-24 py-10 space-y-4  w-full flex flex-row flex-wrap px-4 lg:px-10 gap-x-4 justify-around"
+          className="bg-secondary-800/85 min-h-24 py-10 space-y-4  w-full flex flex-row flex-wrap px-4 lg:px-10 gap-x-4 align-start lg:justify-around"
         >
           <div className="flex-initial w-full border-b-2 pb-4 border-surface-400/25 ">
             <h2 className="text-xl underline">Contact</h2>
-            <p>Send us an email or drop on by.</p>
+            <p>Give us a call or drop on by.</p>
           </div>
           <section className="flex flex-col sm:flex-none sm:grid gap-x-4 gap-y-2 grid-cols-[auto,_1fr] flex-1 sm:min-w-80" id="hours">
             <h3 className="col-span-full font-black underline uppercase text-lg ">
