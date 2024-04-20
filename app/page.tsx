@@ -84,7 +84,7 @@ export default function Home() {
 						</a>
 						<a
 							className="rounded-full p-4 w-max font-bold shadow-primary-50 shadow-sm hover:bg-surface-900 outline-primary-50 border-2 transition-colors "
-							href="tel:+9705676156"
+							href="tel:+9708676156"
 						>
 							<span className="text-surface-100 uppercase flex flex-row gap-2">
 								<span>Contact Us</span>
@@ -131,7 +131,7 @@ export default function Home() {
 							<h3 className="col-span-full font-black underline uppercase text-lg">
 								Phone
 							</h3>
-							<a href="tel:+9705676156">(970) 867-6156</a>
+							<a href="tel:+9708676156">(970) 867-6156</a>
 						</section>
 					</div>
 				</section>
