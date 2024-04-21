@@ -55,7 +55,9 @@ export default function Home() {
 				<section className="bg-primary-800/85 sm:h-screen flex-1 sm:flex-none gap-y-4 w-full justify-center flex flex-col sm:px-10 sm:py-4 px-4 py-2">
 					<div className="gap-y-2 flex flex-col">
 						<h1 className="text-5xl font-black">CMB AUTO SALES</h1>
-						<p className="font-bold text-xl">Family Owned Since 1946</p>
+						<p className="font-bold text-xl">
+							Auto Dealership, Family Owned Since 1946
+						</p>
 					</div>
 					<a
 						className="rounded-full p-4 bg-primary-200 w-max font-bold shadow-primary-50 shadow-sm hover:bg-primary-300 outline-primary-50 outline-4 transition-colors "
