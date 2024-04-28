@@ -70,10 +70,23 @@ export default function Home() {
 							<span className="text-xs self-start flex">[_↗]</span>
 						</span>
 					</a>
-					<div className="flex sm:contents gap-x-2">
+					<div className="flex sm:contents gap-x-2 gap-y-4 flex-wrap">
 						<a
 							className="rounded-full p-4 bg-success-200/5 w-max font-bold shadow-primary-50 shadow-sm hover:bg-surface-900 outline-primary-50 outline-4 transition-colors border-2 border-success-200"
-							href="https://buy.stripe.com/14k4iG6aF3VBfgQcMM"
+							href="https://square.link/u/dPNrXDA7"
+							target="_blank"
+							rel="noreferrer"
+						>
+							<span className="text-surface-100 uppercase flex flex-row gap-2">
+								<span>Make monthly payments</span>
+								<span className="text-xs self-center sm:self-start flex">
+									[_↗]
+								</span>
+							</span>
+						</a>
+						<a
+							className="rounded-full p-4 bg-success-200/5 w-max font-bold shadow-primary-50 shadow-sm hover:bg-surface-900 outline-primary-50 outline-4 transition-colors border-2 border-success-200"
+							href="https://square.link/u/ygsBffh1"
 							target="_blank"
 							rel="noreferrer"
 						>
