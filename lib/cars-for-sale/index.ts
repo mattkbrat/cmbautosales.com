@@ -30,6 +30,8 @@ export const getTitles = (rows: InvHomeData) =>
 		return acc;
 	}, [] as string[]);
 
+export type InvTitles = ReturnType<typeof getTitles>;
+
 export const groupByInventory = (rows: InvHomeData) =>
 	rows.reduce(
 		(acc, curr) => {
