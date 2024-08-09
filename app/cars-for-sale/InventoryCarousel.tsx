@@ -1,19 +1,17 @@
 "use client";
 
-import type { GroupedInventory, InvHomeData } from "./page";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
+import type { GroupedInventory } from "@/types";
 
 export const InventoryCarousel = ({
 	data,
 	title,
-	business,
 	inventory,
 }: {
 	data: GroupedInventory["inventory"];
 	title: string | null;
-	business: string;
 	inventory: number;
 }) => {
 	return (
