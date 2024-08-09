@@ -10,6 +10,7 @@
 		"format": "biome format package.json ./app ./types ./lib --write"
 	},
 	"dependencies": {
+		"@szhsin/react-menu": "^4.2.2",
 		"@vercel/postgres": "^0.9.0",
 		"clsx": "^2.1.1",
 		"next": "14.2.2",
