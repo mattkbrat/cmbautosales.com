@@ -2,17 +2,15 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-	const params = useParams();
 	const [hash, setHash] = useState("");
 
 	useEffect(() => {
 		const currentHash = window.location.hash.replace("#", "");
 		setHash(currentHash);
-	}, [params]);
+	}, []);
 
 	return (
 		<main className="flex min-h-screen lg:flex-row flex-col relative bg-surface-50 overflow-x-clip">
