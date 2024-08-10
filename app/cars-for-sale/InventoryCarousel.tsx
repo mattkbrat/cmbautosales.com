@@ -3,28 +3,27 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Image from "next/image";
-import type { GroupedInventory } from "@/types";
+import type { ArrayElement, Inventory } from "@/types";
 
 export const InventoryCarousel = ({
 	data,
 	title,
-	inventory,
 }: {
-	data: GroupedInventory["inventory"];
+	data: ArrayElement<NonNullable<Inventory>>["images"];
 	title: string | null;
-	inventory: number;
 }) => {
 	return (
 		<Carousel showThumbs={false} showStatus={true}>
 			{data.map((r) => {
 				return (
-					<div key={inventory}>
+					<div key={r.id} className="flex items-center">
 						<Image
 							src={r.url}
 							width={400}
 							height={100}
-							// className="object-center aspect-square object-cover "
+							id={title || undefined}
 							alt={title || "Inventory image"}
+							className="self-center"
 						/>
 						{/* <p className="legend">{title || business}</p> */}
 					</div>

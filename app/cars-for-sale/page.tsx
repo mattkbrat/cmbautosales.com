@@ -1,48 +1,20 @@
-import { getInventory } from "@/lib/database/auto-sales";
-import { InventoryCarousel } from "./InventoryCarousel";
-import Link from "next/link";
-import { getTitles, groupByInventory } from "@/lib/cars-for-sale";
-import { InventoryDetails } from "./InventoryDetails";
 import { TitleMenu } from "./TitleMenu";
+import { InventoryGrid } from "./InventoryGrid";
 
 // export const dynamic = "force-dynamic";
 
 const CarsForSale = async () => {
-	const rows = await getInventory();
-
-	const groupedByInventory = groupByInventory(rows);
-	const titles = getTitles(rows);
-
-	console.log(groupedByInventory);
 	return (
-		<section className="flex  flex-row relative">
-			<div className="grid grid-cols-[3fr_5fr] gap-4">
-				<h1 className="col-span-full">Cars For Sale</h1>
-				{/* <pre>{JSON.stringify(rows, null, 2)}</pre> */}
-				{Object.entries(groupedByInventory).map(([k, r]) => {
-					return (
-						<div key={k} className="contents">
-							<div className="overflow-hidden">
-								<InventoryCarousel data={r.inventory} {...r.data} />
-							</div>
-							<div className="flex flex-col gap-4">
-								<InventoryDetails inventory={r} />
-								<Link
-									href={`/cars-for-sale/${encodeURIComponent(r.data.title || r.inventory.toString())}`}
-									className="mt-auto mb-4"
-								>
-									Check Availability
-								</Link>
-							</div>
-						</div>
-					);
-				})}
+		<section className="flex flex-row relative min-h-screen ">
+			<div className="grid content-start md:grid-cols-[repeat(1,_4fr_5fr)] gap-4 flex-1 ">
+				<InventoryGrid />
 			</div>
-			<nav className="flex flex-col relative ">
-				<div className="fixed top-0 right-0 flex flex-col ">
-					<TitleMenu titles={titles} />
-				</div>
-			</nav>
+			<div
+				id="titles-menu"
+				className="fixed bottom-10 right-0 z-10 ml-auto xl:hidden"
+			>
+				<TitleMenu />
+			</div>
 		</section>
 	);
 };
