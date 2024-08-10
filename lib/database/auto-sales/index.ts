@@ -15,6 +15,8 @@ export const getInventory = async () => {
 			model: true,
 			price: true,
 			mileage: true,
+			body: true,
+			drivetrain: true,
 			images: { select: { id: true, url: true } },
 		},
 		where: {
