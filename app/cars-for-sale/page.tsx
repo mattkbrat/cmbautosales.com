@@ -3,6 +3,12 @@ import { InventoryGrid } from "./InventoryGrid";
 
 // export const dynamic = "force-dynamic";
 
+export const metadata = {
+	title: "Cars for Sale | CMB Auto Sales",
+	description:
+		"Current inventory list for CMB Auto Sales - located in Fort Morgan, Colorado",
+};
+
 const CarsForSale = async () => {
 	return (
 		<section className="flex flex-row relative min-h-screen ">
