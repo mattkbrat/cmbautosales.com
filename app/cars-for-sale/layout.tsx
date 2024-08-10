@@ -1,7 +1,6 @@
-import { getTitles, groupByInventory } from "@/lib/cars-for-sale";
+import { TitlesNav } from "@/lib/components/inventory";
 import { InventoryProvider } from "@/lib/context/inventory/InventoryContext";
 import { getInventory } from "@/lib/database";
-import { TitlesNav } from "./TitlesNav";
 
 const InvLayout = async ({ children }: { children: React.ReactNode }) => {
 	const rows = await getInventory();

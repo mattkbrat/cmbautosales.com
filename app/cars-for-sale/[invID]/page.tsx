@@ -1,10 +1,10 @@
+import { InventoryCarousel } from "@/lib/components/inventory";
 import {
 	getIndividualInventory,
 	getIndividualInventoryTitle,
 } from "@/lib/database";
 import type { Metadata } from "next/types";
 import { Fragment } from "react";
-import { InventoryCarousel } from "../InventoryCarousel";
 
 type Props = {
 	params: {
