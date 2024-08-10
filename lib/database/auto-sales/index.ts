@@ -1,14 +1,49 @@
 import "server-only";
 
-import { sql } from "@vercel/postgres";
-import type { InvHomeData } from "@/lib/cars-for-sale";
+import { prisma } from "..";
+import type { Prisma } from "@prisma/client";
 
-export const getInventory = async (): Promise<InvHomeData> => {
-	return sql`
-select i.id as inventory, i.business, im.id as image, i.title, i.*, i.business, im.url
-from inventory i
-         join image im on i.id = im.inventory
-where (i.business = 'cmb' or i.business = 'CMB AUTO SALES')
-order by i.title ASC, im.order ASC
-`.then((res) => res.rows as InvHomeData);
+const isNum = (id: string | number) => !Number.isNaN(Number(id));
+
+export const getInventory = async () => {
+	return prisma.inventory.findMany({
+		select: {
+			id: true,
+			title: true,
+			year: true,
+			make: true,
+			model: true,
+			price: true,
+			mileage: true,
+			images: { select: { id: true, url: true } },
+		},
+		where: {
+			hidden: false,
+		},
+	});
 };
+
+export const getIndividualInventory = async (id: string | number) => {
+	return prisma.inventory.findFirst({
+		where: isNum(id)
+			? { id: Number(id) }
+			: { title: decodeURIComponent(id.toString()) },
+		include: { images: true },
+	});
+};
+export const getIndividualInventoryTitle = async (
+	id: string,
+): Promise<string | null> => {
+	if (!isNum(id)) return decodeURIComponent(id);
+	return prisma.inventory
+		.findUnique({
+			where: { id: Number(id) },
+			select: { title: true },
+		})
+		.then((r) => r?.title || null);
+};
+
+export type Inventory = Prisma.PromiseReturnType<typeof getInventory>;
+export type InventoryDetails = Prisma.PromiseReturnType<
+	typeof getIndividualInventory
+>;
