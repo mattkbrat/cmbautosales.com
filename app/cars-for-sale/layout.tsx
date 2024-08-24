@@ -1,4 +1,4 @@
-import { TitlesNav } from "@/lib/components/inventory";
+import { TitlesNav } from "@/components/inventory";
 import { InventoryProvider } from "@/lib/context/inventory/InventoryContext";
 import { getInventory } from "@/lib/database";
 

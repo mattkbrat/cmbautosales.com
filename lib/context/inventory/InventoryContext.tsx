@@ -2,11 +2,6 @@
 import { getTitles, type InvTitles } from "@/lib/cars-for-sale";
 import type { Inventory } from "@/types";
 import { createContext, useContext, useMemo, type ReactNode } from "react";
-export type CamFilterParams = {
-	f_name?: string;
-	location?: string[];
-	status?: string;
-};
 
 export type InventoryContextType = {
 	titles: InvTitles;
