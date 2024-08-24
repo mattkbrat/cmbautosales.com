@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FaExternalLinkAlt, FaPhoneAlt } from "react-icons/fa";
 
 export default function Home() {
@@ -13,17 +14,16 @@ export default function Home() {
 							Auto Dealership, Family Owned Since 1946
 						</p>
 					</div>
-					<a
+					<Link
 						className="rounded-full p-4 bg-primary-200 w-max font-bold shadow-primary-50 shadow-sm hover:bg-primary-300 outline-primary-50 outline-4 transition-colors "
-						href="https://docs.google.com/forms/d/e/1FAIpQLSf3zQ7v5da7NYgnnPBfGzkIGbLJZdwnA5YbInfdDgm3zNWOYQ/viewform"
+						href="/credit-application"
 						target="_blank"
 						rel="noreferrer"
 					>
 						<span className="text-surface-900 uppercase flex flex-row gap-2">
 							<span>Submit A Credit Application</span>
-							<FaExternalLinkAlt />
 						</span>
-					</a>
+					</Link>
 					<div className="flex sm:contents gap-x-2 gap-y-4 flex-wrap">
 						<a
 							className="rounded-full p-4 bg-success-200/5 w-max font-bold shadow-primary-50 shadow-sm hover:bg-surface-900 outline-primary-50 outline-4 transition-colors border-2 border-success-200"
