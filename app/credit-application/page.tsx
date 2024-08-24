@@ -97,7 +97,7 @@ const CreditApplication = () => {
 					<FormSection inputs={inputs[currentSection]} hash={currentSection} />
 				)}
 
-				{next !== null ? (
+				{loaded && next !== null ? (
 					<div className="flex flex-row gap-2 flex-wrap">
 						{loaded && breadcrumbs.length > 1 && (
 							<button
@@ -131,7 +131,7 @@ const CreditApplication = () => {
 									? "Submit"
 									: "Next"}
 						</button>
-						{loaded && section && (
+						{section && (
 							<>
 								<button
 									type="button"
@@ -150,7 +150,7 @@ const CreditApplication = () => {
 						)}
 					</div>
 				) : (
-					<p>Thank you, {next}</p>
+					loaded && <p>Thank you, {next}</p>
 				)}
 			</form>
 			<Breadcrumb
