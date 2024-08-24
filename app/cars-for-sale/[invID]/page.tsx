@@ -1,4 +1,4 @@
-import { InventoryCarousel } from "@/lib/components/inventory";
+import { InventoryCarousel } from "@/components/inventory";
 import {
 	getIndividualInventory,
 	getIndividualInventoryTitle,
