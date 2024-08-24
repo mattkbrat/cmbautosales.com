@@ -5,6 +5,7 @@ import { HeaderNav } from "./HeaderNav";
 import clsx from "clsx";
 import { Footer } from "./Footer";
 import { Suspense } from "react";
+import { DarkThemeToggle, Flowbite } from "flowbite-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,13 +27,17 @@ export default function RootLayout({
 					"flex min-h-screen lg:flex-row flex-col relative overflow-x-clip",
 				)}
 			>
-				<Suspense>
-					<HeaderNav />
-				</Suspense>
-				<div className="flex-1 min-h-screen flex flex-col">
-					<div className="flex flex-col bg-primary-800 flex-1 ">{children}</div>
-					<Footer />
-				</div>
+				<Flowbite>
+					<Suspense>
+						<HeaderNav />
+					</Suspense>
+					<div className="flex-1 min-h-screen flex flex-col">
+						<div className="flex flex-col bg-primary-800 flex-1 ">
+							{children}
+						</div>
+						<Footer />
+					</div>
+				</Flowbite>
 			</body>
 		</html>
 	);
