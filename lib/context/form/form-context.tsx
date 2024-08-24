@@ -176,9 +176,7 @@ export const FormProvider = (p: {
 			dispatchFormState({ type: "set", key: k as keyof FormData, value: v });
 		}
 
-		setTimeout(() => {
-			setLoaded(true);
-		}, 200);
+		setLoaded(true);
 	}, [keys.data]);
 
 	useEffect(() => {
@@ -187,9 +185,7 @@ export const FormProvider = (p: {
 	}, [formState, loaded, keys.data]);
 
 	const clearForm = () => {
-		rss.setItem(keys.data, {});
-		rss.setItem(keys.section, "");
-		rss.setItem(keys.breadcrumbs, [APPLICATION_STATES.INTRODUCTION.hash]);
+		rss.clear();
 		dispatchFormState({ type: "reset" });
 		dispatchImages({ type: "reset" });
 	};
