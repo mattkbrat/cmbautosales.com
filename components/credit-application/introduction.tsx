@@ -12,7 +12,7 @@ export const Introduction = () => {
 					Personal
 					<ul>
 						<li>- SSN </li>
-						<li>- Driver's License</li>
+						<li>- Driver&apos;s License</li>
 					</ul>
 				</li>
 				<li>
@@ -36,7 +36,7 @@ export const Introduction = () => {
 					Pictures
 					<ul>
 						<li>- Pay Stub</li>
-						<li>- Driver's License</li>
+						<li>- Driver&apos;s License</li>
 						<li>
 							- Proof of Residency, which must include proof of a current
 							address, valid within the last month.

@@ -1,5 +1,4 @@
-import type { InputMap, OverrideSectionKeys } from "@/types";
-import type { ApplicationState } from "../credit-application";
+import type { InputMapFieldSection, OverrideSectionKeys } from "@/types";
 
 export const rentingKeys = [
 	"rentPayment",
@@ -8,6 +7,7 @@ export const rentingKeys = [
 ] as const;
 
 export type RentingKeys = typeof rentingKeys;
+type Return = InputMapFieldSection<RentingKeys>;
 type RentingSection = OverrideSectionKeys<RentingKeys>;
 
 const rentingSection: RentingSection = [
@@ -20,7 +20,7 @@ const rentingSection: RentingSection = [
 	},
 ];
 
-const landlordSection: RentingSection = [
+const landlordSection: Return["fields"] = [
 	{
 		type: "text",
 		text: "Landlord's Name",
@@ -35,7 +35,7 @@ const landlordSection: RentingSection = [
 	},
 ];
 
-export const renting: InputMap<ApplicationState>["RENTING"] = [
+export const renting: Return[] = [
 	{
 		key: "Renting",
 		fields: rentingSection,

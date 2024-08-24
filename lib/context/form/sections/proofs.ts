@@ -1,12 +1,11 @@
-import type { InputMap, OverrideSectionKeys } from "@/types";
-import type { ApplicationState } from "../credit-application";
+import type { InputMapFieldSection } from "@/types";
 
 export const proofsKeys = ["paystub", "license", "residency"] as const;
 
 export type ProofsKeys = typeof proofsKeys;
-type ProofsSection = OverrideSectionKeys<ProofsKeys>;
+type Return = InputMapFieldSection<ProofsKeys>;
 
-const proofsSection: ProofsSection = [
+const proofsSection: Return["fields"] = [
 	{
 		type: "file",
 		text: "Paystub",
@@ -30,7 +29,7 @@ const proofsSection: ProofsSection = [
 	},
 ];
 
-export const proofs: InputMap<ApplicationState>["PICTURES"] = [
+export const proofs: Return[] = [
 	{
 		key: "Proofs",
 		fields: proofsSection,

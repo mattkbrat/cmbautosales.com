@@ -1,5 +1,5 @@
 import { CompleteFormSection, Introduction } from "@/components";
-import type { ArrayElement, InputMapFieldSection, InputMap } from "@/types";
+import type { ArrayElement, InputMap } from "@/types";
 import {
 	proofs,
 	personal,
@@ -7,6 +7,8 @@ import {
 	housing,
 	renting,
 	reference,
+	type FormKey,
+	type ProofsKeys,
 } from "./sections";
 
 const sections = [
@@ -28,7 +30,7 @@ const sections = [
 	"submit",
 ] as const;
 
-type Section = ArrayElement<typeof sections>;
+export type Section = ArrayElement<typeof sections>;
 
 export const APPLICATION_STATES: {
 	[key in Uppercase<Section>]: {
@@ -144,70 +146,12 @@ export type ApplicationState = keyof typeof APPLICATION_STATES;
 export type ApplicationHash =
 	(typeof APPLICATION_STATES)[ApplicationState]["hash"];
 
-// const references = (number: number): InputMapFieldSection[] => [
-// 	{
-// 		key: `reference #${number}`,
-// 		fields: [
-// 			{
-// 				key: `name-${number}`,
-// 				text: "Name",
-// 				name: "name",
-// 				optional: number > 4 ? true : undefined,
-// 			},
-// 			{
-// 				key: `Street-${number}`,
-// 				text: "street name",
-// 				name: "street",
-// 				optional: number > 4 ? true : undefined,
-// 			},
-// 			{
-// 				key: `Number-${number}`,
-// 				text: "number",
-// 				name: "number",
-// 				optional: true,
-// 			},
-// 			{
-// 				key: `floor-${number}`,
-// 				text: "Floor, unit...",
-// 				name: "floor",
-// 				optional: true,
-// 			},
-// 			{
-// 				key: `city-${number}`,
-// 				text: "City",
-// 				name: "city",
-// 				optional: number > 4 ? true : undefined,
-// 			},
-// 			{
-// 				key: `state-${number}`,
-// 				text: "State",
-// 				name: "state",
-// 				optional: number > 4 ? true : undefined,
-// 			},
-// 			{
-// 				key: `zip-${number}`,
-// 				text: "ZIP",
-// 				name: "zip",
-// 				optional: number > 4 ? true : undefined,
-// 			},
-// 			{
-// 				key: `phone-${number}`,
-// 				text: "Phone #",
-// 				name: "phone",
-// 				type: "tel",
-// 				optional: number > 4 ? true : undefined,
-// 			},
-// 			{
-// 				key: `phone2-${number}`,
-// 				text: "Phone # (work)",
-// 				name: "phone2",
-// 				optional: true,
-// 			},
-// 		],
-// 	},
-// ];
+export type CreditInputMap = InputMap<{
+	root: ApplicationState[];
+	fieldKeys: FormKey[] | ProofsKeys;
+}>;
 
-export const inputs: InputMap<ApplicationState> = {
+export const inputs: CreditInputMap = {
 	PERSONAL: personal,
 	INTRODUCTION: [
 		{

@@ -1,15 +1,15 @@
 "use client";
 import { useFormContext } from "@/lib/context";
 import { FileInput, type FileInputProps, Label } from "flowbite-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FaCloudUploadAlt, FaFileUpload } from "react-icons/fa";
 import { Image } from "image-js";
+import { useCallback, useState, useEffect, useRef } from "react";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 export const FileInputWrapper = ({
 	title: key,
 	accept,
 }: { title: string; accept: FileInputProps["accept"] }) => {
-	const { dispatch, state, section, images } = useFormContext();
+	const { images } = useFormContext();
 
 	const [lastProcessed, setLastProcessed] = useState<null | string | number>(
 		images.current.findIndex((i) => {
@@ -21,19 +21,15 @@ export const FileInputWrapper = ({
 
 	useEffect(() => {
 		if (!fileRef.current) return;
-		console.log("loaded", images, key);
 		if (fileRef.current.files?.length) {
-			console.log("already set", key, fileRef.current.files?.length);
 			return;
 		}
 		const thisImageIsSet = images.current.find((i) => i.name.startsWith(key));
 		if (!thisImageIsSet) return;
 		setLastProcessed(thisImageIsSet.name);
-		console.log(thisImageIsSet, "found");
 		const container = new DataTransfer();
 		container.items.add(thisImageIsSet);
 		fileRef.current.files = container.files;
-		console.log(container.items, "setting");
 		handleChange();
 	}, [key, images]);
 
@@ -56,7 +52,6 @@ export const FileInputWrapper = ({
 							if (!resultRef.current) return;
 							let edit = loaded;
 
-							console.log({ lastProcessed });
 							if (lastProcessed == null) {
 								if (loaded.width > 1000 || loaded.height > 1000) {
 									edit = loaded.resize({
@@ -65,14 +60,12 @@ export const FileInputWrapper = ({
 									});
 								}
 
-								console.log(loaded.width, loaded.height);
 								edit = edit.grey();
 							}
 							resultRef.current.innerHTML = "";
 							resultRef.current.appendChild(edit.getCanvas());
 							const blob = edit.toBlob();
 							blob.then((blob) => {
-								console.log(blob.type, key, blob.size);
 								const filename = `${key}.png`;
 								images.dispatch({
 									type: "set",

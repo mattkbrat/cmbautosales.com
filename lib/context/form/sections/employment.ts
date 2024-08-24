@@ -1,5 +1,4 @@
-import type { InputMap, OverrideSectionKeys } from "@/types";
-import type { ApplicationState } from "../credit-application";
+import type { InputMapFieldSection, OverrideSectionKeys } from "@/types";
 
 export const employmentKeys = [
 	"company",
@@ -13,9 +12,11 @@ export const employmentKeys = [
 ] as const;
 
 export type EmploymentKeys = typeof employmentKeys;
-type employmentSection = OverrideSectionKeys<EmploymentKeys>;
+// type employmentSection = OverrideSectionKeys<EmploymentKeys>;
 
-const employmentSection: employmentSection = [
+type Return = InputMapFieldSection<EmploymentKeys>;
+
+const employmentSection: Return["fields"] = [
 	{
 		type: "text",
 		text: "Company Name",
@@ -67,7 +68,7 @@ const employmentSection: employmentSection = [
 	},
 ];
 
-export const employment: InputMap<ApplicationState>["EMPLOYMENT"] = [
+export const employment: Return[] = [
 	{
 		key: "Employment History",
 		fields: employmentSection,

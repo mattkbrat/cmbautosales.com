@@ -1,5 +1,4 @@
-import type { InputMap, OverrideSectionKeys } from "@/types";
-import type { ApplicationState } from "../credit-application";
+import type { InputMapFieldSection, OverrideSectionKeys } from "@/types";
 
 export const personalKeys = [
 	"lastName",
@@ -18,10 +17,11 @@ export const personalKeys = [
 ] as const;
 
 export type PersonalKeys = typeof personalKeys;
+type Return = InputMapFieldSection<PersonalKeys>;
 
 type PersonalSection = OverrideSectionKeys<PersonalKeys>;
 
-const personalInfoSection: PersonalSection = [
+const personalInfoSection: Return["fields"] = [
 	{ key: "lastName", text: "Last Name" },
 	{ key: "firstName", text: "First Name" },
 	{
@@ -54,7 +54,7 @@ const homeAddressSection: PersonalSection = [
 	{ key: "zip", text: "Zip" },
 ];
 
-export const personal: InputMap<ApplicationState>["PERSONAL"] = [
+export const personal: Return[] = [
 	{
 		key: "Personal Info",
 		fields: personalInfoSection,

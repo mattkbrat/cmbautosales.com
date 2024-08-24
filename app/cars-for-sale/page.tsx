@@ -1,6 +1,6 @@
 // export const dynamic = "force-dynamic";
 
-import { InventoryGrid, TitleMenu } from "@/lib/components/inventory";
+import { InventoryGrid, TitleMenu } from "@/components/inventory";
 
 export const metadata = {
 	title: "Cars for Sale | CMB Auto Sales",

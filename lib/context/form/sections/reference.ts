@@ -1,5 +1,4 @@
-import type { InputMap, OverrideSectionKeys } from "@/types";
-import type { ApplicationState } from "../credit-application";
+import type { InputMapFieldSection, OverrideSectionKeys } from "@/types";
 
 export type ReferenceKeys<T extends ReferenceNumber> = [
 	`name-${T}`,
@@ -13,15 +12,14 @@ export type ReferenceKeys<T extends ReferenceNumber> = [
 	`phone2-${T}`,
 ];
 
-type ReferenceSection<T extends ReferenceNumber> = OverrideSectionKeys<
-	ReferenceKeys<T>
->;
 export type ReferenceNumber = 1 | 2 | 3 | 4 | 5 | 6;
+
+type Return<T extends ReferenceNumber> = InputMapFieldSection<ReferenceKeys<T>>;
 
 // ReferenceSection
 function referenceSection<T extends ReferenceNumber>(
 	number: ReferenceNumber,
-): ReferenceSection<T> {
+): Return<T>["fields"] {
 	return [
 		{
 			key: `name-${number}` as `name-${T}`,
@@ -83,7 +81,7 @@ function referenceSection<T extends ReferenceNumber>(
 
 export function reference<T extends ReferenceNumber>(
 	number: ReferenceNumber,
-): InputMap<ApplicationState>[`REFERENCE_${T}`] {
+): Return<T>[] {
 	return [
 		{
 			key: "reference",

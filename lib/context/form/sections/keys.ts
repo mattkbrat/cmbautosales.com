@@ -8,7 +8,8 @@ type InternalKey =
 	| "section"
 	| "breadcrumbs"
 	| "housingOrRenting"
-	| "formSelection";
+	| "formSelection"
+	| "confirm";
 
 export type FormKeys =
 	| PersonalKeys

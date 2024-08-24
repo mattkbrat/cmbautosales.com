@@ -1,3 +1,4 @@
+import type { FormKey } from "@/lib/context/form/sections";
 import type { FileInputProps } from "flowbite-react";
 import type { HTMLInputTypeAttribute } from "react";
 
@@ -9,10 +10,10 @@ export type { Inventory, InventoryDetails } from "@/lib/database/auto-sales";
 
 export type ReadonlyStringArray = Readonly<string[]>;
 
-type InputAttributes = {
+type InputAttributes<T extends ReadonlyStringArray> = {
 	hint?: string;
 	optional?: true;
-	key: string;
+	key: T[number];
 	text: string;
 	name?: string;
 };
@@ -22,35 +23,38 @@ type SpecialInputTypes = Extract<InputType, "radio" | "file">;
 
 type InputTypeExcluded = Exclude<InputType, SpecialInputTypes>;
 
-const i: InputTypeExcluded = "tel";
-
-export type InputMapField =
+export type InputMapField<T extends ReadonlyStringArray> =
 	| ({
 			type?: InputTypeExcluded;
 			step?: number;
-	  } & InputAttributes)
+	  } & InputAttributes<T>)
 	| ({
 			type: "radio";
 			options: {
 				key: string;
 				value: string;
 			}[];
-	  } & InputAttributes)
+	  } & InputAttributes<T>)
 	| ({
 			type: "file";
 			accept: FileInputProps["accept"];
-	  } & InputAttributes);
+	  } & InputAttributes<T>);
 
-export type InputMapFieldSection = {
+export type InputMapFieldSection<T extends ReadonlyStringArray> = {
 	key?: string;
-	fields: InputMapField[];
+	fields: InputMapField<T>[];
 };
 
-export type InputMap<T extends ReadonlyStringArray[number]> = {
-	[form in T]: InputMapFieldSection[];
+export interface InputMapParams {
+	root: ReadonlyStringArray;
+	fieldKeys: ReadonlyStringArray;
+}
+
+export type InputMap<T extends InputMapParams> = {
+	[form in T["root"][number]]: InputMapFieldSection<T["fieldKeys"]>[];
 };
 
 export type OverrideSectionKeys<T extends readonly string[]> =
-	(InputMapField & {
+	(InputMapField<T> & {
 		key: ArrayElement<T>;
 	})[];

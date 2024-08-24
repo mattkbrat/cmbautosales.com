@@ -63,7 +63,7 @@ type FormData = Partial<{ [key in FormKey]: string | number | Date }>;
 type FormInputAction =
 	| {
 			type: "set";
-			key: keyof FormData;
+			key: FormKey;
 			value: unknown;
 	  }
 	| {
@@ -104,7 +104,6 @@ function imageReducer(images: File[], action: FormImageAction) {
 	}
 
 	if (action.type === "submit") {
-		console.log("saving images", images);
 		return images;
 	}
 
@@ -134,8 +133,6 @@ export const FormProvider = (p: {
 	const [formState, dispatchFormState] = useReducer(formReducer, {});
 	const [images, dispatchImages] = useReducer(imageReducer, []);
 
-	useEffect(() => console.log("up", images), [images]);
-
 	const section = useMemo(() => {
 		return typeof formState.section === "string"
 			? formState.section
@@ -155,15 +152,12 @@ export const FormProvider = (p: {
 		const sectionIndex = breadcrumbs.indexOf(sectionTyped);
 		const newBreadcrumbs = [...breadcrumbs];
 		if (sectionIndex !== -1) {
-			console.log("splicing", newBreadcrumbs[sectionIndex], sectionTyped);
 			newBreadcrumbs.splice(sectionIndex, 1);
 		}
 		newBreadcrumbs.push(sectionTyped);
 		if (newBreadcrumbs.slice(-1)[0] === breadcrumbs.slice(-1)[0]) {
-			console.log("matches", { newBreadcrumbs, breadcrumbs });
 			return;
 		}
-		console.log("up bread", breadcrumbs);
 		dispatchFormState({
 			type: "set",
 			value: newBreadcrumbs,
@@ -193,7 +187,6 @@ export const FormProvider = (p: {
 	}, [formState, loaded, keys.data]);
 
 	const clearForm = () => {
-		console.log("clearing", formState, section);
 		rss.setItem(keys.data, {});
 		rss.setItem(keys.section, "");
 		rss.setItem(keys.breadcrumbs, [APPLICATION_STATES.INTRODUCTION.hash]);

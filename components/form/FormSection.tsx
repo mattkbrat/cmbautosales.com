@@ -4,40 +4,30 @@ import {
 	type ApplicationState,
 	useFormContext,
 } from "@/lib/context";
-import type { InputMap, ReadonlyStringArray } from "@/types";
+import type { InputMap, InputMapParams } from "@/types";
 import clsx from "clsx";
 import { Checkbox, Datepicker, Label, Radio, TextInput } from "flowbite-react";
-import { Fragment, useEffect, useMemo, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { FileInputWrapper } from "./FileInput";
+import type { FormKey } from "@/lib/context/form/sections";
 
-type FormSectionValues<T extends ReadonlyStringArray> = InputMap<T[number]>;
-type FormSectionInputs<T extends ReadonlyStringArray> =
-	FormSectionValues<T>[keyof FormSectionValues<T>];
-
-export function FormSection<T extends ReadonlyStringArray>({
+export function FormSection<T extends InputMapParams>({
 	inputs,
 	hash,
 }: {
-	inputs: FormSectionInputs<T>;
+	inputs: InputMap<T>[keyof InputMap<T>];
 	hash: ApplicationState;
 }) {
 	const { dispatch, state, section } = useFormContext();
-	const selectedSection = useMemo(() => {
-		return APPLICATION_STATES[hash];
-	}, [hash]);
 
-	const firstInputRef = useRef<HTMLInputElement>(null);
+	const firstInputRef = useRef<HTMLLabelElement>(null);
 
 	useEffect(() => {
-		firstInputRef.current?.focus();
-	}, [firstInputRef.current]);
+		firstInputRef.current?.addEventListener("change", () => {
+			firstInputRef.current?.focus();
+		});
+	}, []);
 
-	// const isRequired = useMemo(
-	// 	() => selectedSection && section === selectedSection.hash,
-	// 	[section, selectedSection],
-	// );
-
-	const isRequired = false;
 	return (
 		<>
 			{APPLICATION_STATES[hash] && (
@@ -57,16 +47,13 @@ export function FormSection<T extends ReadonlyStringArray>({
 							{input.key && <h3 className="underline">{input.key}</h3>}
 							{input.fields.map(
 								({ key, name, text, type, hint, optional, ...radio }) => {
-									const ref =
-										key === inputs[0]?.fields[0]?.key
-											? firstInputRef
-											: undefined;
-
+									const isRequired = optional !== true;
 									return (
 										<Fragment key={key}>
 											{text && type !== "checkbox" && (
 												<Label
-													htmlFor={key}
+													htmlFor={key || ""}
+													ref={firstInputRef}
 													className={clsx("space-x-2", {
 														required: optional !== true,
 													})}
@@ -81,12 +68,11 @@ export function FormSection<T extends ReadonlyStringArray>({
 											)}
 											{type === "date" ? (
 												<Datepicker
-													ref={ref}
-													value={state[key] || ""}
+													value={state[key as FormKey]?.toString() || ""}
 													onSelectedDateChanged={(e) => {
 														dispatch({
 															type: "set",
-															key,
+															key: key as FormKey,
 															value: e.toISOString().split("T")[0],
 														});
 													}}
@@ -108,13 +94,14 @@ export function FormSection<T extends ReadonlyStringArray>({
 															return (
 																<Label key={option.key}>
 																	<Radio
-																		ref={ref}
-																		checked={state[key] === option.key}
+																		checked={
+																			state[key as FormKey] === option.key
+																		}
 																		onChange={(e) => {
 																			if (e.target.checked) {
 																				dispatch({
 																					type: "set",
-																					key,
+																					key: key as FormKey,
 																					value: option.key,
 																				});
 																			}
@@ -133,11 +120,10 @@ export function FormSection<T extends ReadonlyStringArray>({
 												/>
 											) : (
 												<TextInput
-													ref={ref}
 													min={type === "number" ? 0 : undefined}
 													type={type}
 													step={"step" in radio ? radio.step : undefined}
-													value={state[key] || ""}
+													value={state[key as FormKey]?.toString() || ""}
 													required={isRequired}
 													className="flex-1"
 													id={name || key}
@@ -145,7 +131,7 @@ export function FormSection<T extends ReadonlyStringArray>({
 													onChange={(e) => {
 														dispatch({
 															type: "set",
-															key,
+															key: key as FormKey,
 															value: e.target.value,
 														});
 													}}

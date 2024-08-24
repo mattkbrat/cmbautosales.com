@@ -8,6 +8,7 @@ import {
 	type ApplicationState,
 	applicationStates,
 	inputs,
+	type Section,
 } from "@/lib/context/form/credit-application";
 import { Breadcrumb } from "flowbite-react";
 
@@ -26,17 +27,14 @@ const CreditApplication = () => {
 		el.scrollLeft = el.scrollWidth;
 	}, [breadcrumbs]);
 
-	useEffect(() => console.log("br", breadcrumbs), [breadcrumbs]);
 	const selected = useMemo(() => {
 		if (!loaded) return null;
 		const curr = applicationRouteData.findIndex((r) => r.hash === section);
 		if (curr === -1) {
-			console.warn("No match");
 			console.log({ section }, applicationRouteData);
 			return null;
 		}
 
-		console.log({ selected: curr, section: applicationStates[curr] });
 		return curr;
 	}, [loaded, section]);
 
@@ -46,7 +44,6 @@ const CreditApplication = () => {
 	}, [selected]);
 
 	const getNext = () => {
-		console.log("next", section, state, selected, loaded);
 		if (!loaded || selected === null) return "";
 		if (applicationRouteData[selected].next) {
 			return next;
@@ -82,19 +79,17 @@ const CreditApplication = () => {
 						images.dispatch({ type: "submit" });
 					}
 					if (selected === null) {
-						console.log("no selection");
 						return;
 					}
 					if (typeof next !== "string") {
 						clearForm();
-						console.log("no next route", { next, state, section });
 						return;
 					}
 
 					try {
 						dispatch({ type: "set", value: next, key: "section" });
 					} catch (e) {
-						console.error("Failed to switch page", e.message);
+						console.error("Failed to switch page");
 					}
 				}}
 			>
@@ -164,6 +159,8 @@ const CreditApplication = () => {
 				id="breadcrumb-nav"
 			>
 				{breadcrumbs.map((br, i) => {
+					const lookup = br.toUpperCase() as Uppercase<Section>;
+					const title: string = APPLICATION_STATES[lookup].title || br;
 					return (
 						<Breadcrumb.Item
 							key={br}
@@ -171,8 +168,6 @@ const CreditApplication = () => {
 							onClick={() => {
 								const previous = breadcrumbs[i];
 								const newBreadcrumbs = breadcrumbs.slice(0, i);
-								// console.log(previous, newBreadcrumbs, { stepsBack });
-								// return;
 								dispatch({
 									type: "set",
 									value: newBreadcrumbs,
@@ -185,7 +180,7 @@ const CreditApplication = () => {
 								});
 							}}
 						>
-							{APPLICATION_STATES[br.toUpperCase()]?.title || br}
+							{title}
 						</Breadcrumb.Item>
 					);
 				})}
