@@ -1,6 +1,7 @@
 "use server";
 
 import type { FormData } from "@/lib/context";
+import { encrypt } from "@/lib/crypt";
 import { prisma } from "@/lib/database";
 import type { CreditApplication } from "@prisma/client";
 
@@ -11,10 +12,12 @@ export const submitCreditApp = async ({
 	data: FormData;
 	userId: number;
 }) => {
+	const ssn = typeof data.SSN === "string" ? encrypt(data.SSN) : undefined;
 	data.SSN = undefined;
 	data.submitConfirm = undefined;
 	const submitData = {
 		...data,
+		ssn,
 		breadcrumbs: Array.isArray(data.breadcrumbs) ? data.breadcrumbs : undefined,
 		housingOrRenting: data.housingOrRenting as string,
 	} as Partial<CreditApplication>;

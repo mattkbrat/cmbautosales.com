@@ -17,6 +17,7 @@
 		"@szhsin/react-menu": "^4.2.2",
 		"@t3-oss/env-core": "^0.11.1",
 		"clsx": "^2.1.1",
+		"cryptr": "^6.3.0",
 		"flowbite": "^2.5.1",
 		"flowbite-react": "^0.10.1",
 		"image-js": "^0.35.6",

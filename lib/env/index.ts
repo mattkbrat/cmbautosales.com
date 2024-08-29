@@ -7,6 +7,7 @@ export const env = createEnv({
 		AWS_SECRET_ACCESS_KEY: z.string(),
 		AWS_ENDPOINT: z.string(),
 		CREDIT_APPLICATIONS_BUCKET: z.string(),
+		CRYPT_SECRET: z.string().length(32),
 	},
 	client: {},
 	/*
@@ -21,6 +22,7 @@ export const env = createEnv({
 		AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
 		AWS_ENDPOINT: process.env.AWS_ENDPOINT,
 		CREDIT_APPLICATIONS_BUCKET: process.env.CREDIT_APPLICATIONS_BUCKET,
+		CRYPT_SECRET: process.env.CRYPT_SECRET,
 	},
 	clientPrefix: "NEXT_PUBLIC_",
 });
