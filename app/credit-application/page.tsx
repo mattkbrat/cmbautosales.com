@@ -1,5 +1,6 @@
 "use client";
 
+import { submitImage, submitCreditApp } from "@/actions";
 import { FormSection } from "@/components/form/FormSection";
 import { useFormContext } from "@/lib/context";
 import {
@@ -10,7 +11,9 @@ import {
 	inputs,
 	type Section,
 } from "@/lib/context/form/credit-application";
+import { FormErrors } from "@/lib/credit-application";
 import { Breadcrumb } from "flowbite-react";
+import Link from "next/link";
 
 import { useEffect, useMemo } from "react";
 
@@ -70,13 +73,27 @@ const CreditApplication = () => {
 		<>
 			<form
 				className="form py-2 flex flex-col gap-2 flex-1"
-				onSubmit={(e) => {
+				onSubmit={async (e) => {
 					e.preventDefault();
 					const next = getNext();
 
 					if (section === APPLICATION_STATES.PICTURES.hash) {
-						console.log("submitting images");
-						images.dispatch({ type: "submit" });
+						const formData = new FormData();
+						for (const image of images.current) {
+							formData.append("image", image);
+						}
+
+						formData.set("userId", "3");
+
+						const result = await submitImage(formData);
+						console.log("upload result", result);
+						if (result.status === "error") {
+							if (result.message === FormErrors.abuse) {
+								throw new Error("Abuse detected");
+							}
+							console.error("Failed to upload images", result.message);
+							return;
+						}
 					}
 					if (selected === null) {
 						return;
@@ -84,6 +101,15 @@ const CreditApplication = () => {
 					if (typeof next !== "string") {
 						clearForm();
 						return;
+					}
+
+					if (next === "submit") {
+						const id = await submitCreditApp({
+							data: state,
+							userId: 3,
+						});
+
+						dispatch({ key: "id", value: id, type: "set" });
 					}
 
 					try {
@@ -150,12 +176,12 @@ const CreditApplication = () => {
 						)}
 					</div>
 				) : (
-					loaded && <p>Thank you, {next}</p>
+					loaded && <Link href={"/"}>Return to the homepage</Link>
 				)}
 			</form>
 			<Breadcrumb
 				aria-label="Form state breadcrumbs"
-				className="mt-auto overflow-x-auto max-w-[50dvw] flex-row-reverse"
+				className="mt-auto overflow-x-auto flex-row-reverse"
 				id="breadcrumb-nav"
 			>
 				{breadcrumbs.map((br, i) => {
