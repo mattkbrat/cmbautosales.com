@@ -17,7 +17,9 @@ export const getInventory = async () => {
 			mileage: true,
 			body: true,
 			drivetrain: true,
-			images: { select: { id: true, url: true } },
+			inventoryImageMtm: {
+				select: { image: { select: { id: true, url: true } } },
+			},
 		},
 		where: {
 			hidden: false,
@@ -30,7 +32,7 @@ export const getIndividualInventory = async (id: string | number) => {
 		where: isNum(id)
 			? { id: Number(id) }
 			: { title: decodeURIComponent(id.toString()) },
-		include: { images: true },
+		include: { inventoryImageMtm: { include: { image: true } } },
 	});
 };
 export const getIndividualInventoryTitle = async (

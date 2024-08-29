@@ -30,14 +30,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const IndividualInvPage = async ({ params: { invID } }: Props) => {
 	const {
-		images,
+		inventoryImageMtm,
 		sold,
 		hidden: _hidden,
 		title,
 		...inventory
 	} = (await getIndividualInventory(invID)) || {};
 
-	console.log(inventory);
+	const images = inventoryImageMtm?.map((m) => m.image);
 	return (
 		<>
 			<div className="my-auto">

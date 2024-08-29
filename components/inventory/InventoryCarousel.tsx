@@ -2,14 +2,13 @@
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import Image from "next/image";
-import type { ArrayElement, Inventory } from "@/types";
+import NextImage from "next/image";
 
 export const InventoryCarousel = ({
 	data,
 	title,
 }: {
-	data: ArrayElement<NonNullable<Inventory>>["images"];
+	data: { id: number; url: string }[];
 	title: string | null;
 }) => {
 	return (
@@ -17,7 +16,7 @@ export const InventoryCarousel = ({
 			{data.map((r) => {
 				return (
 					<div key={r.id} className="flex items-center">
-						<Image
+						<NextImage
 							src={r.url}
 							width={400}
 							height={100}

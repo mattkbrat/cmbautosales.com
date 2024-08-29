@@ -13,7 +13,10 @@ export const InventoryGrid = () => {
 		return (
 			<section key={r.id} className="lg:contents">
 				<div className="bg-dark-100 outline-dark-200 outline-1 outline-offset-2">
-					<InventoryCarousel data={r.images} title={r.title} />
+					<InventoryCarousel
+						data={r.inventoryImageMtm.map((m) => m.image)}
+						title={r.title}
+					/>
 				</div>
 				<div className="flex flex-col gap-4 px-4">
 					<InventoryDetails url={detailsUrl} inventory={r} />
