@@ -1,6 +1,7 @@
 "use client";
 import {
 	createContext,
+	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
@@ -13,7 +14,6 @@ import {
 import rss from "react-secure-storage";
 import { APPLICATION_STATES, type ApplicationHash } from "./credit-application";
 import type { FormKey } from "./sections";
-import { ArrayElement } from "@/types";
 
 type FormImageAction =
 	| {
@@ -26,9 +26,6 @@ type FormImageAction =
 	  }
 	| {
 			type: "reset";
-	  }
-	| {
-			type: "submit";
 	  };
 export type FormContextType = {
 	section: string;
@@ -58,7 +55,7 @@ const Context = createContext<FormContextType>({
 
 export const useFormContext = () => useContext(Context);
 
-type FormData = Partial<{ [key in FormKey]: string | number | Date }>;
+export type FormData = Partial<{ [key in FormKey]: string | number | Date }>;
 
 type FormInputAction =
 	| {
@@ -101,10 +98,6 @@ function imageReducer(images: File[], action: FormImageAction) {
 	}
 	if (action.type === "reset") {
 		return [];
-	}
-
-	if (action.type === "submit") {
-		return images;
 	}
 
 	return images;

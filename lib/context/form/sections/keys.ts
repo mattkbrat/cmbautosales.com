@@ -1,7 +1,7 @@
 import type { EmploymentKeys } from "./employment";
 import type { HousingKeys } from "./housing";
 import type { PersonalKeys } from "./personal";
-import { ReferenceKeys } from "./reference";
+import type { ReferenceKeys } from "./reference";
 import type { RentingKeys } from "./renting";
 
 type InternalKey =
@@ -9,6 +9,8 @@ type InternalKey =
 	| "breadcrumbs"
 	| "housingOrRenting"
 	| "formSelection"
+	| "id"
+	| "submitConfirm"
 	| "confirm";
 
 export type FormKeys =
