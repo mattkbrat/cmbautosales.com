@@ -225,5 +225,23 @@ export const inputs: CreditInputMap = {
 	SUBMIT: [],
 	HOUSING: housing,
 	RENTING: renting,
-	COMPLETE: [],
+	COMPLETE: [
+		{
+			key: "confirm",
+			fields: [
+				{
+					type: "radio",
+					text: "",
+					key: "submitConfirm",
+					options: [
+						{
+							key: "submitConfirm",
+							value:
+								"By checking this box and clicking submit below, I agree to the above terms. ",
+						},
+					],
+				},
+			],
+		},
+	],
 } as const;

@@ -87,6 +87,21 @@ export const CompleteFormSection = () => {
 					);
 				})}
 			</div>
+
+			<hr />
+			<section className="flex flex-col gap-2">
+				<h2>Confirm</h2>
+				<span>
+					I CERTIFY THAT THE ABOVE INFORMATION IS COMPLETE AND ACCURATE. YOU ARE
+					AUTHORIZED TO INVESTIGATE MY CREDIT AND EMPLOYMENT HISTORY AND TO
+					RELEASE INFORMATION.
+				</span>
+				<span className="text-sm">
+					CERTIFICO QUE LA INFORMACIÓN ANTERIOR ES COMPLETA Y EXACTA. USTED ESTÁ
+					AUTORIZADO PARA INVESTIGAR MI HISTORIAL DE CRÉDITO Y EMPLEO Y PARA
+					DIVULGAR INFORMACIÓN.
+				</span>
+			</section>
 		</div>
 	);
 };
