@@ -10,6 +10,9 @@ export const FileInputWrapper = ({
 	accept,
 }: { title: string; accept: FileInputProps["accept"] }) => {
 	const { images } = useFormContext();
+	const [state, setState] = useState<
+		"idle" | "submitting" | "rendering" | "rendered" | "hidden" | "failed"
+	>("idle");
 
 	const [lastProcessed, setLastProcessed] = useState<null | string | number>(
 		images.current.findIndex((i) => {
@@ -35,17 +38,21 @@ export const FileInputWrapper = ({
 
 	const handleChange = useCallback(() => {
 		{
+			setState("idle");
 			if (!fileRef.current?.files) return;
 
 			const files = fileRef.current.files;
 			if (files?.[0]) {
+				setState("submitting");
 				const reader = new FileReader();
 				reader.onload = (e) => {
 					if (!e.target?.result) return;
+					setState("rendering");
 					Image.load(e.target.result)
 						.catch((error) => {
 							console.error(error.message);
 							alert("Invalid file");
+							setState("failed");
 						})
 						.then((loaded) => {
 							if (!loaded) return;
@@ -72,6 +79,7 @@ export const FileInputWrapper = ({
 									image: new File([blob], filename),
 								});
 								setLastProcessed(filename);
+								setState("rendered");
 							});
 						});
 				};
@@ -90,7 +98,7 @@ export const FileInputWrapper = ({
 	}, [handleChange]);
 
 	return (
-		<div className="flex w-full items-center justify-center text-gray-500 dark:text-gray-400 flex-wrap gap-y-2">
+		<div className="flex w-full items-center justify-center text-gray-500 dark:text-gray-400 gap-y-2 flex-col sm:flex-row">
 			<Label
 				htmlFor={key}
 				className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -98,13 +106,14 @@ export const FileInputWrapper = ({
 				<div className="flex flex-col items-center justify-center pb-6 pt-5">
 					<FaCloudUploadAlt size={"4rem"} />
 					<p className="mb-2 text-sm ">
-						<span className="font-semibold">Click to upload</span> or drag and
-						drop
+						<span className="font-semibold">Click to upload</span>
+						<span> or drag and drop</span>
 					</p>
 					<span>{accept}</span>
 				</div>
 				<FileInput id={key} className="hidden" ref={fileRef} accept={accept} />
 			</Label>
+			{state !== "rendered" && state !== "idle" && <span>{state}</span>}
 			<div ref={resultRef} id="result" />
 		</div>
 	);
