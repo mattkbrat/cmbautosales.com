@@ -6,6 +6,10 @@ body {
   @apply text-surface-50 bg-dark-100;
 }
 
+canvas {
+  @apply max-w-full;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
