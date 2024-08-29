@@ -1,8 +1,4 @@
-import {
-	APPLICATION_STATES,
-	applicationStates,
-	useFormContext,
-} from "@/lib/context";
+import { APPLICATION_STATES, useFormContext } from "@/lib/context";
 import type { ReferenceNumber } from "@/lib/context/form/sections";
 import { Fragment, useMemo } from "react";
 import { FaCheck } from "react-icons/fa";

@@ -127,8 +127,9 @@ export const APPLICATION_STATES: {
 	},
 	SUBMIT: {
 		hash: "submit",
-		introduction: "",
-		title: "",
+		introduction:
+			"Thank you for your submission. Please wait for us to reach back out to you.",
+		title: "Form Submitted",
 		next: null,
 	},
 	PICTURES: {

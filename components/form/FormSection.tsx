@@ -18,7 +18,7 @@ export function FormSection<T extends InputMapParams>({
 	inputs: InputMap<T>[keyof InputMap<T>];
 	hash: ApplicationState;
 }) {
-	const { dispatch, state, section } = useFormContext();
+	const { dispatch, state } = useFormContext();
 
 	const firstInputRef = useRef<HTMLLabelElement>(null);
 
@@ -27,6 +27,8 @@ export function FormSection<T extends InputMapParams>({
 			firstInputRef.current?.focus();
 		});
 	}, []);
+
+	const isDev = process.env.NODE_ENV === "development";
 
 	return (
 		<>
@@ -47,7 +49,7 @@ export function FormSection<T extends InputMapParams>({
 							{input.key && <h3 className="underline">{input.key}</h3>}
 							{input.fields.map(
 								({ key, name, text, type, hint, optional, ...radio }) => {
-									const isRequired = optional !== true;
+									const isRequired = optional !== true && !isDev;
 									return (
 										<Fragment key={key}>
 											{text && type !== "checkbox" && (

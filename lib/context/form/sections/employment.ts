@@ -36,7 +36,7 @@ const employmentSection: Return["fields"] = [
 		key: "companyAddress",
 	},
 	{
-		type: "phone",
+		type: "tel",
 		text: "Company Phone #",
 		hint: "",
 		key: "companyTel",
