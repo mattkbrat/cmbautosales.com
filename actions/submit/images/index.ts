@@ -1,9 +1,10 @@
 "use server";
 
+import { getServerSession } from "@/lib/auth";
 import { FormErrors } from "@/lib/credit-application";
 import { prisma } from "@/lib/database";
 import { upload } from "@/lib/s3";
-import { User } from "@prisma/client";
+import type { User } from "@prisma/client";
 
 const handleUpload = async ({
 	image,
@@ -92,8 +93,17 @@ const checkAbuse = async ({
 
 export const submitImage = async (formData: FormData) => {
 	const image = formData.getAll("image") as unknown as File[];
-	const userId = formData.get("userId") as string;
 
+	const session = await getServerSession();
+
+	if (!session?.user?.email) {
+		return {
+			status: "error",
+			message: FormErrors.unauthorized,
+		};
+	}
+
+	const { email: userId } = session.user;
 	const isAbuse = await checkAbuse({
 		userId,
 		newUploads: image.length,

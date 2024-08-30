@@ -106,7 +106,6 @@ const CreditApplication = () => {
 					if (next === "submit") {
 						const id = await submitCreditApp({
 							data: state,
-							userId: "",
 						});
 
 						dispatch({ key: "id", value: id, type: "set" });
