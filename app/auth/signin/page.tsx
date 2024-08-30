@@ -13,7 +13,8 @@ export default async function SignIn() {
 	const providers = await getProviders();
 
 	if (providers === null) {
-		throw new Error("No providers");
+		console.error("No providers");
+		redirect("/");
 	}
 
 	return <SignInView providers={providers} />;
