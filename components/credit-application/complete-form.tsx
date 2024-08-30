@@ -23,9 +23,9 @@ export const CompleteFormSection = () => {
 				if (
 					title === filterKey ||
 					title === APPLICATION_STATES.INTRODUCTION.title ||
-					title === APPLICATION_STATES.APPLICABLE_FORM.title
+					title === APPLICATION_STATES.APPLICABLE_FORM.title ||
+					title === APPLICATION_STATES.SUBMIT.title
 				) {
-					console.log("excluding", { title, filterKey });
 					return null;
 				}
 
@@ -42,7 +42,7 @@ export const CompleteFormSection = () => {
 					complete = !!state.landlordName;
 				} else if (title.startsWith("Reference")) {
 					const key = Number(title.slice(-1)) as ReferenceNumber;
-					complete = !!state[`phone-${key}`];
+					complete = !!state[`phone_${key}`];
 				} else if (title === APPLICATION_STATES.PICTURES.title) {
 					complete = images.current.length === 3;
 				}

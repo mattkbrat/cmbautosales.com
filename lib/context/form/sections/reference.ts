@@ -1,15 +1,15 @@
 import type { InputMapFieldSection, OverrideSectionKeys } from "@/types";
 
 export type ReferenceKeys<T extends ReferenceNumber> = [
-	`name-${T}`,
-	`Street-${T}`,
-	`Number-${T}`,
-	`floor-${T}`,
-	`city-${T}`,
-	`state-${T}`,
-	`zip-${T}`,
-	`phone-${T}`,
-	`phone2-${T}`,
+	`name_${T}`,
+	`Street_${T}`,
+	`Number_${T}`,
+	`floor_${T}`,
+	`city_${T}`,
+	`state_${T}`,
+	`zip_${T}`,
+	`phone_${T}`,
+	`phone2_${T}`,
 ];
 
 export type ReferenceNumber = 1 | 2 | 3 | 4 | 5 | 6;
@@ -22,56 +22,56 @@ function referenceSection<T extends ReferenceNumber>(
 ): Return<T>["fields"] {
 	return [
 		{
-			key: `name-${number}` as `name-${T}`,
+			key: `name_${number}` as `name_${T}`,
 			text: "Name",
 			name: "name",
 			optional: number > 4 ? true : undefined,
 		},
 		{
-			key: `Street-${number}` as `Street-${T}`,
+			key: `Street_${number}` as `Street_${T}`,
 			text: "street name",
 			name: "street",
 			optional: number > 4 ? true : undefined,
 		},
 		{
-			key: `Number-${number}` as `Number-${T}`,
+			key: `Number_${number}` as `Number_${T}`,
 			text: "number",
 			name: "number",
 			optional: true,
 		},
 		{
-			key: `floor-${number}` as `floor-${T}`,
+			key: `floor_${number}` as `floor_${T}`,
 			text: "Floor, unit...",
 			name: "floor",
 			optional: true,
 		},
 		{
-			key: `city-${number}` as `city-${T}`,
+			key: `city_${number}` as `city_${T}`,
 			text: "City",
 			name: "city",
 			optional: number > 4 ? true : undefined,
 		},
 		{
-			key: `state-${number}` as `state-${T}`,
+			key: `state_${number}` as `state_${T}`,
 			text: "State",
 			name: "state",
 			optional: number > 4 ? true : undefined,
 		},
 		{
-			key: `zip-${number}` as `zip-${T}`,
+			key: `zip_${number}` as `zip_${T}`,
 			text: "ZIP",
 			name: "zip",
 			optional: number > 4 ? true : undefined,
 		},
 		{
-			key: `phone-${number}` as `phone-${T}`,
+			key: `phone_${number}` as `phone_${T}`,
 			text: "Phone #",
 			name: "phone",
 			type: "tel",
 			optional: number > 4 ? true : undefined,
 		},
 		{
-			key: `phone2-${number}` as `phone2-${T}`,
+			key: `phone2_${number}` as `phone2_${T}`,
 			text: "Phone # (work)",
 			name: "phone2",
 			optional: true,
