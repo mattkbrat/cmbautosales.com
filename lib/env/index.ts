@@ -12,6 +12,8 @@ export const env = createEnv({
 		// Auth
 		GOOGLE_CLIENT_ID: z.string(),
 		GOOGLE_CLIENT_SECRET: z.string(),
+		GITHUB_ID: z.string(),
+		GITHUB_SECRET: z.string(),
 		NEXTAUTH_SECRET: z.string(),
 	},
 	client: {},
@@ -30,6 +32,8 @@ export const env = createEnv({
 		CRYPT_SECRET: process.env.CRYPT_SECRET,
 		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
 		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+		GITHUB_ID: process.env.GITHUB_ID,
+		GITHUB_SECRET: process.env.GITHUB_SECRET,
 		NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
 	},
 	clientPrefix: "NEXT_PUBLIC_",

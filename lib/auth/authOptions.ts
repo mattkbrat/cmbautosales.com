@@ -7,6 +7,7 @@ import type {
 } from "next";
 import { getServerSession, type AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/database";
 export const options = {
@@ -20,6 +21,10 @@ export const options = {
 		GoogleProvider({
 			clientId: env.GOOGLE_CLIENT_ID,
 			clientSecret: env.GOOGLE_CLIENT_SECRET,
+		}),
+		GitHubProvider({
+			clientId: env.GITHUB_ID,
+			clientSecret: env.GITHUB_SECRET,
 		}),
 	],
 	// callbacks: {
