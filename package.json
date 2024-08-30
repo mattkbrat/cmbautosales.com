@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"pull": "prisma db pull && prisma-case-format -f prisma/schema.prisma",
+		"pull": "prisma db pull",
 		"generate": "prisma generate",
 		"format": "biome format package.json ./app ./types ./lib --write"
 	},
@@ -42,7 +42,6 @@
 		"eslint-config-next": "14.2.2",
 		"postcss": "^8.4.41",
 		"prisma": "^5.18.0",
-		"prisma-case-format": "^2.2.1",
 		"tailwindcss": "^3.4.10",
 		"typescript": "^5.5.4"
 	},
