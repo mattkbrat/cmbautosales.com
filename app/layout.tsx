@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { Footer } from "./Footer";
 import { Suspense } from "react";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
+import { AuthProvider } from "@/lib/context/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,15 +29,17 @@ export default function RootLayout({
 				)}
 			>
 				<Flowbite>
-					<Suspense>
-						<HeaderNav />
-					</Suspense>
-					<div className="flex-1 min-h-screen flex flex-col">
-						<div className="flex flex-col bg-primary-800 flex-1 ">
-							{children}
+					<AuthProvider>
+						<Suspense>
+							<HeaderNav />
+						</Suspense>
+						<div className="flex-1 min-h-screen flex flex-col">
+							<div className="flex flex-col bg-primary-800 flex-1 ">
+								{children}
+							</div>
+							<Footer />
 						</div>
-						<Footer />
-					</div>
+					</AuthProvider>
 				</Flowbite>
 			</body>
 		</html>

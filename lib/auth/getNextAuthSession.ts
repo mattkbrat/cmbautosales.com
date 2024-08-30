@@ -1,7 +1,6 @@
-import { getServerSession as getSs } from "next-auth";
-import { options } from "./authOptions";
+import { auth } from "./auth";
+import { authConfig } from "./config";
 
 export const getServerSession = async () => {
-	// @ts-expect-error: TODO: Debug why these types are broken.
-	return getSs(options);
+	return auth(authConfig);
 };

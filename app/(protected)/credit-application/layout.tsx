@@ -1,12 +1,13 @@
 import { UserBar } from "@/components";
-import { getServerSession } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
 import { FormProvider } from "@/lib/context";
 import { redirect } from "next/navigation";
 
 const CreditApplicationLayout = async ({
 	children,
 }: { children: React.ReactNode }) => {
-	const session = await getServerSession();
+	console.log("auth", auth);
+	const session = auth && (await auth());
 
 	if (!session?.user) {
 		return redirect("/auth/signin?returnTo=/credit-application");

@@ -1,15 +1,15 @@
 "use client";
 
-import type { AuthProviders } from "@/types";
+import type { Provider } from "@/types";
 import { signIn } from "next-auth/react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 
 export const SignInView = ({
 	providers,
-}: { providers: NonNullable<AuthProviders> }) => {
+}: { providers: NonNullable<Provider[]> }) => {
 	const icons = {
-		Google: <FaGoogle />,
-		GitHub: <FaGithub />,
+		Google: (color?: string) => <FaGoogle color={color || "white"} />,
+		GitHub: (color?: string) => <FaGithub color={color || "white"} />,
 	};
 
 	return (
@@ -23,7 +23,11 @@ export const SignInView = ({
 					>
 						<span>
 							{provider.name in icons &&
-								icons[provider.name as keyof typeof icons]}
+								icons[provider.name as keyof typeof icons](
+									provider.style.logo ||
+										provider.style.brandColor ||
+										provider.style.bg,
+								)}
 						</span>
 						<span>Sign in with</span>
 						<span>{provider.name}</span>

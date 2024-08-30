@@ -1,7 +1,11 @@
-import { options } from "@/lib/auth";
+import { authConfig } from "@/lib/auth/config";
 import NextAuth from "next-auth";
 
-// @ts-expect-error: TODO: Debug types
-const handler = NextAuth(options);
-
-export { handler as GET, handler as POST };
+export const {
+	handlers: { GET, POST },
+	auth,
+} = NextAuth({
+	session: { strategy: "jwt" },
+	...authConfig,
+});
+export const runtime = "edge";

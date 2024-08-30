@@ -1,2 +1,2 @@
-export * from "./authOptions";
+export * from "./auth";
 export * from "./getNextAuthSession";
