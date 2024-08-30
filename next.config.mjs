@@ -7,6 +7,16 @@ const nextConfig = {
 				hostname: "*.autoflp.com",
 				port: "",
 			},
+			{
+				protocol: "https",
+				hostname: "*.githubusercontent.com",
+				port: "",
+			},
+			{
+				protocol: "https",
+				hostname: "*.googleusercontent.com",
+				port: "",
+			},
 		],
 	},
 };
