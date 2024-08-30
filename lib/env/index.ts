@@ -8,6 +8,11 @@ export const env = createEnv({
 		AWS_ENDPOINT: z.string(),
 		CREDIT_APPLICATIONS_BUCKET: z.string(),
 		CRYPT_SECRET: z.string().length(32),
+
+		// Auth
+		GOOGLE_CLIENT_ID: z.string(),
+		GOOGLE_CLIENT_SECRET: z.string(),
+		NEXTAUTH_SECRET: z.string(),
 	},
 	client: {},
 	/*
@@ -23,6 +28,9 @@ export const env = createEnv({
 		AWS_ENDPOINT: process.env.AWS_ENDPOINT,
 		CREDIT_APPLICATIONS_BUCKET: process.env.CREDIT_APPLICATIONS_BUCKET,
 		CRYPT_SECRET: process.env.CRYPT_SECRET,
+		GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+		NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
 	},
 	clientPrefix: "NEXT_PUBLIC_",
 });

@@ -3,14 +3,14 @@
 import type { FormData } from "@/lib/context";
 import { encrypt } from "@/lib/crypt";
 import { prisma } from "@/lib/database";
-import type { CreditApplication } from "@prisma/client";
+import type { CreditApplication, User } from "@prisma/client";
 
 export const submitCreditApp = async ({
 	data,
 	userId,
 }: {
 	data: FormData;
-	userId: number;
+	userId: User["id"];
 }) => {
 	const ssn = typeof data.SSN === "string" ? encrypt(data.SSN) : undefined;
 	data.SSN = undefined;

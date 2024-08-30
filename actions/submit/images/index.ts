@@ -3,11 +3,12 @@
 import { FormErrors } from "@/lib/credit-application";
 import { prisma } from "@/lib/database";
 import { upload } from "@/lib/s3";
+import { User } from "@prisma/client";
 
 const handleUpload = async ({
 	image,
 	userId,
-}: { image: File; userId: number }) => {
+}: { image: File; userId: User["id"] }) => {
 	if (image.size > 24_000_000) {
 		return {
 			status: "error",
@@ -68,7 +69,7 @@ const checkAbuse = async ({
 	inMinutes = 5,
 	newUploads = 1,
 }: {
-	userId: number;
+	userId: User["id"];
 	maxUploads?: number;
 	inMinutes?: number;
 	newUploads?: number;
@@ -91,7 +92,7 @@ const checkAbuse = async ({
 
 export const submitImage = async (formData: FormData) => {
 	const image = formData.getAll("image") as unknown as File[];
-	const userId = Number(formData.get("userId") as string);
+	const userId = formData.get("userId") as string;
 
 	const isAbuse = await checkAbuse({
 		userId,
