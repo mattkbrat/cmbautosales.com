@@ -12,6 +12,7 @@
 		"format": "biome format package.json ./app ./types ./lib --write"
 	},
 	"dependencies": {
+		"@auth/prisma-adapter": "^2.4.2",
 		"@aws-sdk/client-s3": "^3.637.0",
 		"@prisma/client": "^5.18.0",
 		"@szhsin/react-menu": "^4.2.2",
@@ -22,6 +23,7 @@
 		"flowbite-react": "^0.10.1",
 		"image-js": "^0.35.6",
 		"next": "14.2.2",
+		"next-auth": "^4.24.7",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-icons": "^5.3.0",

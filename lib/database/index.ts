@@ -1,6 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import "server-only";
-
+export { prisma } from "./prisma";
 export * from "./auto-sales";
-
-export const prisma = new PrismaClient();
