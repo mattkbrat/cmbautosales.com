@@ -1,4 +1,3 @@
-import "server-only";
 import { env } from "@/lib/env";
 import type {
 	GetServerSidePropsContext,
@@ -14,6 +13,8 @@ export const options = {
 	// debug: true,
 	// @ts-expect-error: It says the adapater is not compatible, which is false
 	adapter: PrismaAdapter(prisma),
+	secret: env.NEXTAUTH_SECRET,
+	trueHost: true,
 	session: {
 		strategy: "database",
 	},
