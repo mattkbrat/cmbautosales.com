@@ -1,8 +1,8 @@
 import { env } from "@/lib/env";
 
-import type { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import type { NextAuthConfig } from "next-auth";
 
 export const authConfig = {
 	debug: true,
@@ -17,4 +17,4 @@ export const authConfig = {
 			clientSecret: env.GITHUB_SECRET,
 		}),
 	],
-} satisfies AuthOptions;
+} satisfies NextAuthConfig;
