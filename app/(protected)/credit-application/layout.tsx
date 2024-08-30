@@ -1,6 +1,6 @@
 import { FormProvider } from "@/lib/context";
 
-const CreditApplicationLayout = ({
+const CreditApplicationLayout = async ({
 	children,
 }: { children: React.ReactNode }) => {
 	return (
