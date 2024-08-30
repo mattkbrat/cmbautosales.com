@@ -88,6 +88,10 @@ canvas {
   @apply list-disc;
 }
 
+#breadcrumb-nav > ol {
+  @apply flex-wrap ;
+}
+
 .required:after {
     content:" *";
     color: red;

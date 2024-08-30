@@ -181,7 +181,7 @@ const CreditApplication = () => {
 			</form>
 			<Breadcrumb
 				aria-label="Form state breadcrumbs"
-				className="mt-auto overflow-x-auto flex-row-reverse"
+				className="mt-auto "
 				id="breadcrumb-nav"
 			>
 				{breadcrumbs.map((br, i) => {
