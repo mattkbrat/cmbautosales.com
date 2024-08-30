@@ -7,7 +7,7 @@ import {
 import type { InputMap, InputMapParams } from "@/types";
 import clsx from "clsx";
 import { Checkbox, Datepicker, Label, Radio, TextInput } from "flowbite-react";
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect } from "react";
 import { FileInputWrapper } from "./FileInput";
 import type { FormKey } from "@/lib/context/form/sections";
 
@@ -20,13 +20,14 @@ export function FormSection<T extends InputMapParams>({
 }) {
 	const { dispatch, state } = useFormContext();
 
-	const firstInputRef = useRef<HTMLLabelElement>(null);
-
 	useEffect(() => {
-		firstInputRef.current?.addEventListener("change", () => {
-			firstInputRef.current?.focus();
-		});
-	}, []);
+		if (!Array.isArray(inputs) || inputs.length === 0) return;
+		const firstTag = `${inputs[0].fields[0].name || inputs[0].fields[0].key}`;
+		const element = document.getElementById(firstTag);
+		console.log({ element, firstTag });
+		if (!element) return;
+		element.focus();
+	}, [inputs]);
 
 	const isDev = process.env.NODE_ENV === "development";
 
@@ -45,8 +46,8 @@ export function FormSection<T extends InputMapParams>({
 			<section className="flex flex-col gap-y-2 ">
 				{inputs.map((input) => {
 					return (
-						<section key={input.key} className="form-section">
-							{input.key && <h3 className="underline">{input.key}</h3>}
+						<fieldset key={input.key} className="form-section ">
+							{input.key && <legend className="underline">{input.key}</legend>}
 							{input.fields.map(
 								({ key, name, text, type, hint, optional, ...radio }) => {
 									const isRequired = optional !== true && !isDev;
@@ -55,7 +56,6 @@ export function FormSection<T extends InputMapParams>({
 											{text && type !== "checkbox" && (
 												<Label
 													htmlFor={key || ""}
-													ref={firstInputRef}
 													className={clsx("space-x-2", {
 														required: optional !== true,
 													})}
@@ -94,7 +94,7 @@ export function FormSection<T extends InputMapParams>({
 													{"options" in radio &&
 														radio.options.map((option) => {
 															return (
-																<Label key={option.key}>
+																<Label key={option.key} className="space-x-2">
 																	<Radio
 																		checked={
 																			state[key as FormKey] === option.key
@@ -110,7 +110,7 @@ export function FormSection<T extends InputMapParams>({
 																		}}
 																		required={isRequired}
 																	/>
-																	{option.value}
+																	<span>{option.value}</span>
 																</Label>
 															);
 														})}
@@ -143,7 +143,7 @@ export function FormSection<T extends InputMapParams>({
 									);
 								},
 							)}
-						</section>
+						</fieldset>
 					);
 				})}
 			</section>
