@@ -96,6 +96,7 @@ model CreditApplication {
   rentPayment           Int?        @map("rentpayment")
   landlordName          String?     @map("landlordname")
   landlordPhone         String?     @map("landlordphone")
+  ownphone              String?
   users                 User        @relation(fields: [email], references: [email], onDelete: SetDefault, map: "credit_application_users_email_fk")
   userImage             UserImage[]
 

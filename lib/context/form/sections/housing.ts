@@ -1,6 +1,6 @@
 import type { InputMapFieldSection, OverrideSectionKeys } from "@/types";
 
-export const housingKeys = ["mortgage", "phone", "ownPayment"] as const;
+export const housingKeys = ["mortgage", "ownPhone", "ownPayment"] as const;
 
 export type HousingKeys = typeof housingKeys;
 type Return = InputMapFieldSection<HousingKeys>;
@@ -17,7 +17,7 @@ const housingSection: Return["fields"] = [
 		type: "tel",
 		text: "Phone #",
 		hint: "",
-		key: "phone",
+		key: "ownPhone",
 	},
 	{
 		type: "number",
