@@ -2,28 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  @apply text-surface-50 bg-dark-100;
+}
+
+canvas {
+  @apply max-w-full;
 }
 
 @layer utilities {
@@ -31,3 +15,85 @@ body {
     text-wrap: balance;
   }
 }
+
+.szh-menu {
+  @apply bg-gray-900 px-4 py-2;
+}
+.carousel .slide { display: flex; justify-content: center; } 
+.carousel .thumb img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.carousel .slide img {
+    max-height: 30dvh;
+    max-width: auto;
+  object-fit: contain;
+}
+
+
+.form > .header > h2 { 
+  @apply bg-secondary-400 rounded-t-lg ;
+}
+
+.form > .header > div {
+  @apply bg-dark-100/70 rounded-b-lg;
+}
+
+.bg-darkblue-transparent,
+.form-section {
+  @apply bg-dark-100/70
+}
+
+.form-section {
+  @apply flex flex-col rounded-lg gap-2 border-dark-999 border-l-2 p-4;
+}
+
+.form-section > * > label {
+  @apply flex flex-row ;
+}
+
+
+.button,
+.btn-dark,
+.btn-dark-bg {
+  @apply outline-2 px-8 py-2   rounded-lg font-extrabold 
+}
+
+.btn-dark,
+.btn-dark-bg { 
+
+  @apply text-gray-400 hover:bg-surface-300
+}
+
+.btn-dark-bg {
+  @apply bg-dark-100/90 hover:bg-gray-500
+}
+
+.form > * > h1,
+.form > * > h2,
+.form > * > p,
+.form > * > span,
+.form> * > div,
+.form> * > ul
+{
+  @apply px-4 py-2;
+}
+
+.form > * > label {
+  @apply flex flex-row gap-2 pl-4;
+}
+
+.form > * > ul {
+  @apply list-disc;
+}
+
+#breadcrumb-nav > ol {
+  @apply flex-wrap ;
+}
+
+.required:after {
+    content:" *";
+    color: red;
+  }
+
