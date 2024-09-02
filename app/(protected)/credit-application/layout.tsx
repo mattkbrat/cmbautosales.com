@@ -4,6 +4,9 @@ import { auth } from "@/lib/auth/auth";
 import { FormProvider } from "@/lib/context";
 import { redirect } from "next/navigation";
 
+const thisRoute = encodeURIComponent("/credit-application");
+
+const signInUrl = `/auth/signin?callback=${thisRoute}`;
 const CreditApplicationLayout = async ({
 	children,
 }: { children: React.ReactNode }) => {
@@ -11,11 +14,11 @@ const CreditApplicationLayout = async ({
 	const session = auth && (await auth());
 
 	if (!session?.user) {
-		return redirect("/auth/signin?returnTo=/credit-application");
+		return redirect(signInUrl);
 	}
 	const exists = await checkUserExists(session.user);
 
-	if (!exists) return redirect("/auth/signin");
+	if (!exists) return redirect(signInUrl);
 	return (
 		<div
 			className="mx-[10dvw] flex flex-col mt-4 border-t-[0.4rem] rounded-lg flex-1
