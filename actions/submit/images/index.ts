@@ -107,14 +107,10 @@ export const submitImage = async (formData: FormData) => {
 		};
 	}
 
-	const results = await Promise.allSettled(
-		image.map((image) => {
-			console.log("Uploading image", image.name, userId);
-			return handleUpload({ image, userId });
-		}),
-	);
-
-	console.log("submit results", results, { userId });
+	for await (const i of image) {
+		console.log("Uploading image", i.name, userId);
+		await handleUpload({ image: i, userId, timestamp });
+	}
 
 	return {
 		status: "success",
