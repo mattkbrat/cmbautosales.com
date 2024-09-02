@@ -1,9 +1,13 @@
 import { SignInView } from "./SignInView";
 import { redirect } from "next/navigation";
-import { auth, getServerSession } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { getProviders } from "@/lib/auth/getProviders";
 
-export default async function SignIn() {
+export default async function SignIn({
+	searchParams: { callback },
+}: {
+	searchParams: { callback?: string };
+}) {
 	const session = await auth();
 
 	if (session) {
@@ -18,5 +22,5 @@ export default async function SignIn() {
 	}
 
 	console.log(providers);
-	return <SignInView providers={providers} />;
+	return <SignInView callback={callback} providers={providers} />;
 }

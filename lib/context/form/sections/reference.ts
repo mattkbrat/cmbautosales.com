@@ -1,4 +1,4 @@
-import type { InputMapFieldSection, OverrideSectionKeys } from "@/types";
+import type { InputMapFieldSection } from "@/types";
 
 export type ReferenceKeys<T extends ReferenceNumber> = [
 	`name_${T}`,
@@ -11,6 +11,8 @@ export type ReferenceKeys<T extends ReferenceNumber> = [
 	`phone_${T}`,
 	`phone2_${T}`,
 ];
+
+const minimumRequired = 2;
 
 export type ReferenceNumber = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -25,13 +27,13 @@ function referenceSection<T extends ReferenceNumber>(
 			key: `name_${number}` as `name_${T}`,
 			text: "Name",
 			name: "name",
-			optional: number > 4 ? true : undefined,
+			optional: number > minimumRequired ? true : undefined,
 		},
 		{
 			key: `Street_${number}` as `Street_${T}`,
 			text: "street name",
 			name: "street",
-			optional: number > 4 ? true : undefined,
+			optional: number > minimumRequired ? true : undefined,
 		},
 		{
 			key: `Number_${number}` as `Number_${T}`,
@@ -49,26 +51,26 @@ function referenceSection<T extends ReferenceNumber>(
 			key: `city_${number}` as `city_${T}`,
 			text: "City",
 			name: "city",
-			optional: number > 4 ? true : undefined,
+			optional: number > minimumRequired ? true : undefined,
 		},
 		{
 			key: `state_${number}` as `state_${T}`,
 			text: "State",
 			name: "state",
-			optional: number > 4 ? true : undefined,
+			optional: number > minimumRequired ? true : undefined,
 		},
 		{
 			key: `zip_${number}` as `zip_${T}`,
 			text: "ZIP",
 			name: "zip",
-			optional: number > 4 ? true : undefined,
+			optional: number > minimumRequired ? true : undefined,
 		},
 		{
 			key: `phone_${number}` as `phone_${T}`,
 			text: "Phone #",
 			name: "phone",
 			type: "tel",
-			optional: number > 4 ? true : undefined,
+			optional: number > minimumRequired ? true : undefined,
 		},
 		{
 			key: `phone2_${number}` as `phone2_${T}`,
