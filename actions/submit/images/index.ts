@@ -9,7 +9,8 @@ import type { User } from "@prisma/client";
 const handleUpload = async ({
 	image,
 	userId,
-}: { image: File; userId: User["id"] }) => {
+	timestamp: now,
+}: { image: File; userId: User["id"]; timestamp: number }) => {
 	if (image.size > 24_000_000) {
 		console.warn(
 			`Can not upload image from ${userId}. Exceed max image size: ${image.size}`,
@@ -20,7 +21,6 @@ const handleUpload = async ({
 		};
 	}
 
-	const now = new Date().getTime();
 	const filename = `${userId}/${now}-${image.name}`;
 	return upload({
 		filename,
@@ -82,6 +82,7 @@ const checkAbuse = async ({
 
 export const submitImage = async (formData: FormData) => {
 	const image = formData.getAll("image") as unknown as File[];
+	const timestamp = new Date().getTime();
 
 	const session = await getServerSession();
 
