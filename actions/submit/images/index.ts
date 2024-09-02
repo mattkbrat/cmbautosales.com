@@ -28,33 +28,19 @@ const handleUpload = async ({
 	}).then(async ({ bucket, r }) => {
 		console.log("uploaded", r);
 		await prisma.$transaction(async (tx) => {
-			const dbImage = await tx.image.upsert({
-				where: {
+			const dbImage = await tx.image.create({
+				data: {
 					url: filename,
-				},
-				create: {
-					url: filename,
-					title: image.name,
-					source: `r2/${bucket}`,
-				},
-				update: {
 					title: image.name,
 					source: `r2/${bucket}`,
 				},
 			});
 
-			await tx.userImage.upsert({
-				where: {
-					user_imageId: {
-						imageId: dbImage.id,
-						user: userId,
-					},
-				},
-				create: {
+			await tx.userImage.create({
+				data: {
 					imageId: dbImage.id,
 					user: userId,
 				},
-				update: {},
 			});
 
 			console.log("saved new image to db", { dbImage: dbImage.title, userId });
