@@ -9,15 +9,18 @@ import type { User } from "@prisma/client";
 const handleUpload = async ({
 	image,
 	userId,
-}: { image: File; userId: User["id"] }) => {
+	timestamp: now,
+}: { image: File; userId: User["id"]; timestamp: number }) => {
 	if (image.size > 24_000_000) {
+		console.warn(
+			`Can not upload image from ${userId}. Exceed max image size: ${image.size}`,
+		);
 		return {
 			status: "error",
 			message: FormErrors.maxSizeExceeded,
 		};
 	}
 
-	const now = new Date().getTime();
 	const filename = `${userId}/${now}-${image.name}`;
 	return upload({
 		filename,
@@ -25,33 +28,19 @@ const handleUpload = async ({
 	}).then(async ({ bucket, r }) => {
 		console.log("uploaded", r);
 		await prisma.$transaction(async (tx) => {
-			const dbImage = await tx.image.upsert({
-				where: {
+			const dbImage = await tx.image.create({
+				data: {
 					url: filename,
-				},
-				create: {
-					url: filename,
-					title: image.name,
-					source: `r2/${bucket}`,
-				},
-				update: {
 					title: image.name,
 					source: `r2/${bucket}`,
 				},
 			});
 
-			await tx.userImage.upsert({
-				where: {
-					user_imageId: {
-						imageId: dbImage.id,
-						user: userId,
-					},
-				},
-				create: {
+			await tx.userImage.create({
+				data: {
 					imageId: dbImage.id,
 					user: userId,
 				},
-				update: {},
 			});
 
 			console.log("saved new image to db", { dbImage: dbImage.title, userId });
@@ -93,6 +82,7 @@ const checkAbuse = async ({
 
 export const submitImage = async (formData: FormData) => {
 	const image = formData.getAll("image") as unknown as File[];
+	const timestamp = new Date().getTime();
 
 	const session = await getServerSession();
 
@@ -117,14 +107,10 @@ export const submitImage = async (formData: FormData) => {
 		};
 	}
 
-	const results = await Promise.allSettled(
-		image.map((image) => {
-			console.log("Uploading image", image.name, userId);
-			return handleUpload({ image, userId });
-		}),
-	);
-
-	console.log("submit results", results, { userId });
+	for await (const i of image) {
+		console.log("Uploading image", i.name, userId);
+		await handleUpload({ image: i, userId, timestamp });
+	}
 
 	return {
 		status: "success",
