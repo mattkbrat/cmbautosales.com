@@ -11,6 +11,9 @@ const handleUpload = async ({
 	userId,
 }: { image: File; userId: User["id"] }) => {
 	if (image.size > 24_000_000) {
+		console.warn(
+			`Can not upload image from ${userId}. Exceed max image size: ${image.size}`,
+		);
 		return {
 			status: "error",
 			message: FormErrors.maxSizeExceeded,
