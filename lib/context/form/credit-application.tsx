@@ -96,12 +96,13 @@ export const APPLICATION_STATES: {
 	},
 	REFERENCE_1: {
 		hash: "reference_1",
-		introduction: "Please list at least 4.",
+		introduction: "Please list at least 2.",
 		title: "Reference #1",
 	},
 	REFERENCE_2: {
 		hash: "reference_2",
-		introduction: "",
+		introduction:
+			"Please list a reference who resides in a different address from the first reference listed.",
 		title: "Reference #2",
 	},
 	REFERENCE_3: {
