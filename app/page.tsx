@@ -17,7 +17,6 @@ export default function Home() {
 					<Link
 						className="rounded-full p-4 bg-primary-200 w-max font-bold shadow-primary-50 shadow-sm hover:bg-primary-300 outline-primary-50 outline-4 transition-colors "
 						href="/credit-application"
-						target="_blank"
 						rel="noreferrer"
 					>
 						<span className="text-surface-900 uppercase flex flex-row gap-2">
