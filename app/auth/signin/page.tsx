@@ -3,11 +3,13 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getProviders } from "@/lib/auth/getProviders";
 
-export default async function SignIn({
-	searchParams: { callback },
-}: {
-	searchParams: { callback?: string };
+export default async function SignIn(props: {
+	searchParams: Promise<{ callback?: string }>;
 }) {
+	const searchParams = await props.searchParams;
+
+	const { callback } = searchParams;
+
 	const session = await auth();
 
 	if (session) {

@@ -8,28 +8,17 @@ export const UserBar = ({
 	intro = "Hello,",
 }: { intro?: string; user: NonNullable<DefaultSession["user"]> }) => {
 	return (
-		<>
-			<div className="flex flex-col md:flex-row flex-wrap">
+		<div className="flex flex-wrap-reverse flex-1">
+			<div className="grid justify-between items-start">
 				<div className="grid flex-1">
 					<span className="text-sm">{intro}</span>
-					<div className="grid ">
+					<div className="grid">
 						<span className="text-2xl">{user.name}</span>
-						<span className="text-sm md:-mt-2">{user.email || ""}</span>
+						<span className="text-sm min-w-max">{user.email || ""}</span>
 					</div>
 				</div>
-				{user.image ? (
-					<Image
-						src={user.image}
-						height={40}
-						width={40}
-						alt="user profile image"
-						className="row-span-2 h-auto w-full md:h-full md:w-auto md:min-h-24 md:ml-auto mr-4 self-center"
-					/>
-				) : (
-					<span />
-				)}
-			</div>
-			<hr className="" />
+				<div className="mt-auto">
+
 			<button
 				type="button"
 				className="flex gap-2 underline "
@@ -40,6 +29,24 @@ export const UserBar = ({
 				<span>Not you?</span>
 				<GoSignOut />
 			</button>
-		</>
+				</div>
+
+			</div>
+			<div className="grid">
+
+
+			</div>
+				{user.image ? (
+					<Image
+						src={user.image}
+						height={400}
+						width={400}
+						alt="user profile image"
+						className="row-span-2 h-auto md:h-full md:w-auto md:ml-auto mr-4 self-center"
+					/>
+				) : (
+					<span />
+				)}
+		</div>
 	);
 };

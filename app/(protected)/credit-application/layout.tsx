@@ -10,7 +10,6 @@ const signInUrl = `/auth/signin?callback=${thisRoute}`;
 const CreditApplicationLayout = async ({
 	children,
 }: { children: React.ReactNode }) => {
-	console.log("auth", auth);
 	const session = auth && (await auth());
 
 	if (!session?.user) {
@@ -20,12 +19,9 @@ const CreditApplicationLayout = async ({
 
 	if (!exists) return redirect(signInUrl);
 	return (
-		<div
-			className="mx-[10dvw] flex flex-col mt-4 border-t-[0.4rem] rounded-lg flex-1
-		  "
-		>
-			<div className="gap-4 flex flex-col form flex-1 ">
-				<section className="bg-darkblue-transparent px-4 py-2 space-y-2">
+		<div className="mx-[10dvw] flex flex-col mt-4 border-t-[0.4rem] rounded-lg flex-1">
+			<div className="gap-2 flex flex-col form flex-1">
+				<section className="px-4 py-2 space-y-2 bg-surface">
 					<h1 className="text-2xl">CMB Auto Sales - Credit Application</h1>
 					<hr />
 					<UserBar intro="Submitting as" user={session.user} />

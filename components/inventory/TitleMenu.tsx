@@ -9,11 +9,11 @@ export const TitleMenu = () => {
 	const { titles } = useInventoryContext();
 	return (
 		<Menu
-			className={"text-right bg-gray-900 flex z-10 items-end text-xl "}
+			className={"text-right grid z-10 items-end text-xl "}
 			menuButton={
 				<MenuButton
 					className={
-						"ml-auto mr-4  min-w-max bg-dark-100 flex flex-row gap-2 px-2 text-xl"
+						"ml-auto mr-4  min-w-max flex flex-row gap-2 px-2 text-xl"
 					}
 				>
 					Inv List <CiMenuBurger />
