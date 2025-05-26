@@ -35,8 +35,8 @@ export function FormSection<T extends InputMapParams>({
 	return (
 		<>
 			{APPLICATION_STATES[hash] && (
-				<section className="header pb-4">
-					<h2>{APPLICATION_STATES[hash].title || ""}</h2>
+				<section className="bg-surface p-4 rounded-lg">
+					<h2 className="underline text-lg font-bold">{APPLICATION_STATES[hash].title || ""}</h2>
 					<div>
 						{APPLICATION_STATES[hash].introduction || ""}
 
@@ -103,7 +103,7 @@ export function FormSection<T extends InputMapParams>({
 													{"options" in radio &&
 														radio.options.map((option) => {
 															return (
-																<Label key={option.key} className="space-x-2">
+																<Label key={option.key} className="space-x-2 text-base">
 																	<Radio
 																		checked={
 																			state[key as FormKey] === option.key

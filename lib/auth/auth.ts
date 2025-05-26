@@ -12,5 +12,3 @@ export const {
 	adapter: PrismaAdapter(prisma),
 	...authConfig,
 });
-
-console.log("next auth", auth);

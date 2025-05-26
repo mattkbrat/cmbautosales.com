@@ -2,10 +2,10 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 export const Footer = () => {
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col bg-white/75 gap-y-0">
 			<section
 				id="contact"
-				className="bg-secondary-800/85 min-h-24 py-2 sm:py-10  w-full flex flex-row flex-wrap px-4 lg:px-10 gap-x-4 align-start justify-around text-xs sm:text-sm lg:text-base"
+				className="border-t-blue-800 border-t-2 min-h-24 py-2 sm:py-10  w-full flex flex-row flex-wrap px-4 lg:px-10 gap-x-4 align-start justify-around text-xs sm:text-sm lg:text-base"
 			>
 				<div className="flex-initial w-full border-b-2 pb-4 border-surface-400/25 ">
 					<h2 className="text-xl underline">Contact</h2>
@@ -43,7 +43,7 @@ export const Footer = () => {
 					</section>
 				</div>
 			</section>
-			<footer className="bg-primary-800 h-max text-sm py-2 justify-around flex flex-col md:flex-row px-10 gap-y-2 w-full">
+			<footer className="border-t-blue-800 border-t-2 h-max text-sm py-2 justify-around flex flex-col md:flex-row px-10 gap-y-2 w-full">
 				<p>© CMB AUTO SALES</p>
 				<a
 					href="https://mattkbrat.com"
