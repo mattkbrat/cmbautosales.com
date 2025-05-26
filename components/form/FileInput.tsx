@@ -10,6 +10,8 @@ export const FileInputWrapper = ({
 	accept,
 }: { title: string; accept: FileInputProps["accept"] }) => {
 	const { images } = useFormContext();
+	const resultRef = useRef<HTMLDivElement>(null);
+	const fileRef = useRef<HTMLInputElement>(null);
 	const [state, setState] = useState<
 		"idle" | "submitting" | "rendering" | "rendered" | "hidden" | "failed"
 	>("idle");
@@ -19,22 +21,6 @@ export const FileInputWrapper = ({
 			return i.name.startsWith(key);
 		}),
 	);
-	const resultRef = useRef<HTMLDivElement>(null);
-	const fileRef = useRef<HTMLInputElement>(null);
-
-	useEffect(() => {
-		if (!fileRef.current) return;
-		if (fileRef.current.files?.length) {
-			return;
-		}
-		const thisImageIsSet = images.current.find((i) => i.name.startsWith(key));
-		if (!thisImageIsSet) return;
-		setLastProcessed(thisImageIsSet.name);
-		const container = new DataTransfer();
-		container.items.add(thisImageIsSet);
-		fileRef.current.files = container.files;
-		handleChange();
-	}, [key, images]);
 
 	const handleChange = useCallback(() => {
 		{
@@ -86,14 +72,29 @@ export const FileInputWrapper = ({
 				reader.readAsDataURL(files[0]);
 			}
 		}
-	}, [key, images.dispatch, lastProcessed]);
+	}, [key, images, lastProcessed]);
+
+		useEffect(() => {
+		if (!fileRef.current) return;
+		if (fileRef.current.files?.length) {
+			return;
+		}
+		const thisImageIsSet = images.current.find((i) => i.name.startsWith(key));
+		if (!thisImageIsSet) return;
+		setLastProcessed(thisImageIsSet.name);
+		const container = new DataTransfer();
+		container.items.add(thisImageIsSet);
+		fileRef.current.files = container.files;
+		handleChange();
+	}, [key, handleChange, images]);
 
 	useEffect(() => {
 		setLastProcessed(null);
+		const changed = fileRef.current;
 		fileRef.current?.addEventListener("change", handleChange);
 
 		return () => {
-			fileRef.current?.removeEventListener("change", handleChange);
+			changed?.removeEventListener("change", handleChange);
 		};
 	}, [handleChange]);
 
