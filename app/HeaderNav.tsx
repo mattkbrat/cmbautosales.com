@@ -45,14 +45,6 @@ export const HeaderNav = () => {
 				>
 					<Link href="/credit-application">Credit App</Link>
 				</li>
-				<li
-					className={clsx("w-max py-3 px-4 flex-1 lg:flex-none text-center", {
-						"border-primary-50 font-bold border-b-2 lg:border-b-0 lg:border-r-2":
-							pathname.includes("cars-for-sale"),
-					})}
-				>
-					<Link href="/cars-for-sale">Cars for sale</Link>
-				</li>
 			</ul>
 			<Menu
 				className={"text-right bg-gray-900 flex sm:hidden z-10 items-end "}
@@ -71,9 +63,6 @@ export const HeaderNav = () => {
 				</MenuItem>
 				<MenuItem>
 					<Link href="/#contact">Contact</Link>
-				</MenuItem>
-				<MenuItem className={"min-w-max"}>
-					<Link href="/cars-for-sale">Cars for sale</Link>
 				</MenuItem>
 				<MenuItem className={"min-w-max"}>
 					<Link href="/credit-application">Credit application</Link>
