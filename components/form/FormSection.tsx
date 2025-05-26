@@ -20,11 +20,12 @@ export function FormSection<T extends InputMapParams>({
 }) {
 	const { dispatch, state } = useFormContext();
 
+	console.log(state)
+
 	useEffect(() => {
 		if (!Array.isArray(inputs) || inputs.length === 0) return;
 		const firstTag = `${inputs[0].fields[0].name || inputs[0].fields[0].key}`;
 		const element = document.getElementById(firstTag);
-		console.log({ element, firstTag });
 		if (!element) return;
 		element.focus();
 	}, [inputs]);
@@ -70,12 +71,20 @@ export function FormSection<T extends InputMapParams>({
 											)}
 											{type === "date" ? (
 												<Datepicker
-													value={state[key as FormKey]?.toString() || ""}
-													onSelectedDateChanged={(e) => {
+													value={new Date(state[key as FormKey] ?? new Date())}
+													onChange={(e) => {
+														if (!e) {
+															dispatch({
+																type: 'set',
+																value: "",
+																key: key as FormKey
+															})
+															return
+														}
 														dispatch({
 															type: "set",
 															key: key as FormKey,
-															value: e.toISOString().split("T")[0],
+															value: e.toISOString(),
 														});
 													}}
 													required={isRequired}
