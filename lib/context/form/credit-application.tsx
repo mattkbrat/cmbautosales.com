@@ -1,14 +1,14 @@
 import { CompleteFormSection, Introduction } from "@/components";
 import type { ArrayElement, InputMap } from "@/types";
 import {
-	proofs,
-	personal,
-	employment,
-	housing,
-	renting,
-	reference,
 	type FormKey,
 	type ProofsKeys,
+	employment,
+	housing,
+	personal,
+	proofs,
+	reference,
+	renting,
 } from "./sections";
 
 const sections = [
@@ -38,26 +38,25 @@ export const APPLICATION_STATES: {
 		introduction?: string;
 		title?: string;
 		next?: Section | null;
-		component?: () => React.ReactNode;
 	};
 } = {
 	INTRODUCTION: {
 		hash: "introduction",
 		introduction: "",
 		title: "Introduction",
-		component: () => <Introduction />,
+		// component: () => <Introduction />,
 	},
 	APPLICABLE_FORM: {
 		hash: "applicable_form",
 		introduction: "This form is split into several sections.",
-		component: () => (
-			<>
-				<section className="flex flex-row gap-2  flex-1">
-					<h3>Which form are you filling out?</h3>
-				</section>
-				<p>You can come back later to fill out a different half.</p>
-			</>
-		),
+		// component: () => (
+		// 	<>
+		// 		<section className="flex flex-row gap-2  flex-1">
+		// 			<h3>Which form are you filling out?</h3>
+		// 		</section>
+		// 		<p>You can come back later to fill out a different half.</p>
+		// 	</>
+		// ),
 		title: "Applicable Form",
 	},
 	PERSONAL: {
@@ -91,7 +90,7 @@ export const APPLICATION_STATES: {
 		hash: "complete",
 		introduction: "",
 		title: "",
-		component: () => <CompleteFormSection />,
+		// component: () => <CompleteFormSection />,
 		next: "submit",
 	},
 	REFERENCE_1: {

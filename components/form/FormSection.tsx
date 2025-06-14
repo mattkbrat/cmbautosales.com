@@ -2,14 +2,14 @@
 import {
 	APPLICATION_STATES,
 	type ApplicationState,
-	useFormContext,
 } from "@/lib/context";
 import type { InputMap, InputMapParams } from "@/types";
 import clsx from "clsx";
-import { Checkbox, Datepicker, Label, Radio, TextInput } from "flowbite-react";
 import { Fragment, useEffect } from "react";
 import { FileInputWrapper } from "./FileInput";
 import type { FormKey } from "@/lib/context/form/sections";
+import { useFormStore } from "@/lib/context/form/form-store";
+import { Introduction } from "../credit-application";
 
 export function FormSection<T extends InputMapParams>({
 	inputs,
@@ -18,9 +18,7 @@ export function FormSection<T extends InputMapParams>({
 	inputs: InputMap<T>[keyof InputMap<T>];
 	hash: ApplicationState;
 }) {
-	const { dispatch, state } = useFormContext();
-
-	console.log(state)
+	const { dispatch, state } = useFormStore();
 
 	useEffect(() => {
 		if (!Array.isArray(inputs) || inputs.length === 0) return;
@@ -40,7 +38,7 @@ export function FormSection<T extends InputMapParams>({
 					<div>
 						{APPLICATION_STATES[hash].introduction || ""}
 
-						{APPLICATION_STATES[hash].component?.()}
+            <Introduction/>
 					</div>
 				</section>
 			)}
@@ -55,7 +53,7 @@ export function FormSection<T extends InputMapParams>({
 									return (
 										<Fragment key={key}>
 											{text && type !== "checkbox" && (
-												<Label
+												<label
 													htmlFor={key || ""}
 													className={clsx("space-x-2", {
 														required: optional !== true,
@@ -67,25 +65,15 @@ export function FormSection<T extends InputMapParams>({
 															<small>{hint}</small>
 														</>
 													)}
-												</Label>
+												</label>
 											)}
 											{type === "date" ? (
-												<Datepicker
-													value={new Date(state[key as FormKey] ?? new Date())}
+												<input type="date"
+													value={(new Date(state[key as FormKey] ?? new Date())).toISOString().split("T")[0]}
 													onChange={(e) => {
-														if (!e) {
 															dispatch({
-																type: 'set',
-																value: "",
-																key: key as FormKey
+                                [key]: e.target.value 
 															})
-															return
-														}
-														dispatch({
-															type: "set",
-															key: key as FormKey,
-															value: e.toISOString(),
-														});
 													}}
 													required={isRequired}
 													className="flex-1"
@@ -93,34 +81,32 @@ export function FormSection<T extends InputMapParams>({
 													name={name || key}
 												/>
 											) : type === "checkbox" ? (
-												<Label className="space-x-4">
-													<Checkbox name={key} required={isRequired} />
+												<label className="space-x-4">
+													<input type="checkbox" name={key} required={isRequired} />
 													<span>{text}</span>
-												</Label>
+												</label>
 											) : type === "radio" ? (
 												<fieldset className="flex flex-col gap-2">
 													<legend>{text}</legend>
 													{"options" in radio &&
 														radio.options.map((option) => {
 															return (
-																<Label key={option.key} className="space-x-2 text-base">
-																	<Radio
+																<label key={option.key} className="space-x-2 text-base">
+																	<input type="radio"
 																		checked={
 																			state[key as FormKey] === option.key
 																		}
 																		onChange={(e) => {
 																			if (e.target.checked) {
 																				dispatch({
-																					type: "set",
-																					key: key as FormKey,
-																					value: option.key,
+                                          [key]: option.key
 																				});
 																			}
 																		}}
 																		required={isRequired}
 																	/>
 																	<span>{option.value}</span>
-																</Label>
+																</label>
 															);
 														})}
 												</fieldset>
@@ -130,7 +116,7 @@ export function FormSection<T extends InputMapParams>({
 													accept={"accept" in radio ? radio.accept : "*"}
 												/>
 											) : (
-												<TextInput
+												<input
 													min={type === "number" ? 0 : undefined}
 													type={type}
 													step={"step" in radio ? radio.step : undefined}
@@ -141,9 +127,7 @@ export function FormSection<T extends InputMapParams>({
 													name={name || key}
 													onChange={(e) => {
 														dispatch({
-															type: "set",
-															key: key as FormKey,
-															value: e.target.value,
+                                      [key]: e.target.value
 														});
 													}}
 												/>

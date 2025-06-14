@@ -1,21 +1,15 @@
 "use client";
 
+import { useHash } from "@/lib/hooks";
+import { Menu, MenuButton, MenuItem } from "@szhsin/react-menu";
 import clsx from "clsx";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
+import { usePathname } from "next/navigation";
 import { CiMenuBurger } from "react-icons/ci";
-import { useHash } from "@/lib/hooks";
 
 export const HeaderNav = () => {
 	const pathname = usePathname();
 	const { hash } = useHash();
-	useEffect(() => {
-		if (typeof document === "undefined") return;
-		// Force dark mode
-		window.localStorage.setItem("flowbite-theme-mode", "light");
-	}, []);
 	return (
 		<>
 			<nav className="items-end self-end sm:items-start sm:self-start z-10 sticky top-0">

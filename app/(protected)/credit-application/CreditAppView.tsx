@@ -1,25 +1,33 @@
 "use client";
 
-import { submitImage, submitCreditApp } from "@/actions";
+import { submitCreditApp, submitImage } from "@/actions";
 import { FormSection } from "@/components/form/FormSection";
-import { useFormContext } from "@/lib/context";
 import {
 	APPLICATION_STATES,
-	applicationRouteData,
 	type ApplicationState,
+	type Section,
 	applicationStates,
 	inputs,
-	type Section,
 } from "@/lib/context/form/credit-application";
+import { useFormStore } from "@/lib/context/form/form-store";
 import { FormErrors } from "@/lib/credit-application";
-import { Breadcrumb } from "flowbite-react";
 import Link from "next/link";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 const CreditApplication = () => {
-	const { section, loaded, clearForm, dispatch, images, state, breadcrumbs } =
-		useFormContext();
+	const {
+		section,
+		images,
+		breadcrumbs,
+		state,
+		clear: clearForm,
+		setSection,
+		setBreadcrumbs,
+		setId,
+		getNext,
+		getSelected,
+	} = useFormStore();
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: We only want to update the nav when breadcrumbs changes
 	useEffect(() => {
@@ -30,45 +38,11 @@ const CreditApplication = () => {
 		el.scrollLeft = el.scrollWidth;
 	}, [breadcrumbs]);
 
-	const selected = useMemo(() => {
-		if (!loaded) return null;
-		const curr = applicationRouteData.findIndex((r) => r.hash === section);
-		if (curr === -1) {
-			console.log({ section }, applicationRouteData);
-			return null;
-		}
-
-		return curr;
-	}, [loaded, section]);
-
-	const next = useMemo(() => {
-		if (!selected) return true;
-		return applicationRouteData[selected].next;
-	}, [selected]);
-
-	const getNext = () => {
-		if (!loaded || selected === null) return "";
-		if (applicationRouteData[selected].next) {
-			return next;
-		}
-		if (section === APPLICATION_STATES.APPLICABLE_FORM.hash) {
-			return state.formSelection;
-		}
-
-		if (section === APPLICATION_STATES.HOUSINGORRENTING.hash) {
-			return state.housingOrRenting;
-		}
-
-		return (
-			applicationRouteData[selected + 1]?.hash ||
-			APPLICATION_STATES.APPLICABLE_FORM.hash
-		);
-	};
-
-	const currentSection: ApplicationState = useMemo(() => {
-		if (!selected) return "INTRODUCTION";
-		return applicationStates[selected] as ApplicationState;
-	}, [selected]);
+	const selected = getSelected();
+	const next = getNext();
+	const currentSection: ApplicationState = !selected
+		? "INTRODUCTION"
+		: (applicationStates[selected] as ApplicationState);
 	return (
 		<>
 			<form
@@ -79,19 +53,17 @@ const CreditApplication = () => {
 
 					if (section === APPLICATION_STATES.PICTURES.hash) {
 						const formData = new FormData();
-						for (const image of images.current) {
+						for (const { file: image } of images) {
 							formData.append("image", image);
 						}
 
 						formData.set("userId", "3");
 
 						const result = await submitImage(formData);
-						console.log("upload result", result);
 						if (result.status === "error") {
 							if (result.message === FormErrors.abuse) {
 								throw new Error("Abuse detected");
 							}
-							console.error("Failed to upload images", result.message);
 							return;
 						}
 					}
@@ -108,47 +80,31 @@ const CreditApplication = () => {
 							data: state,
 						});
 
-						dispatch({ key: "id", value: id, type: "set" });
+						setId(typeof id === "number" ? id : -1);
 					}
 
-					try {
-						dispatch({ type: "set", value: next, key: "section" });
-					} catch (e) {
-						console.error("Failed to switch page");
-					}
+					setSection(next);
 				}}
 			>
-				{loaded && selected !== null && (
-					<FormSection inputs={inputs[currentSection]} hash={currentSection} />
-				)}
+				<FormSection inputs={inputs[currentSection]} hash={currentSection} />
 
-				{loaded && next !== null ? (
+				{next !== null ? (
 					<div className="flex flex-row gap-2 flex-wrap">
-						{loaded && breadcrumbs.length > 1 && (
+						{breadcrumbs.length > 1 && (
 							<button
 								type="button"
 								className="btn-dark-bg"
 								onClick={() => {
 									const previous = breadcrumbs.slice(-2)[0];
-									const newBreadcrumbs = breadcrumbs.slice(0, -1);
-									dispatch({
-										type: "set",
-										value: newBreadcrumbs,
-										key: "breadcrumbs",
-									});
-									dispatch({
-										type: "set",
-										value: previous,
-										key: "section",
-									});
+									setBreadcrumbs(
+										breadcrumbs.slice(0, breadcrumbs.indexOf(previous)),
+									);
+									setSection(previous);
 								}}
 							>
 								Back
 							</button>
 						)}
-						{/* <Link className="btn-dark-bg" href={next || "/"}> */}
-						{/* 	Next */}
-						{/* </Link> */}
 						<button type="submit" className="btn-dark-bg">
 							{section === APPLICATION_STATES.PICTURES.hash
 								? "Upload Images & Continue"
@@ -157,28 +113,24 @@ const CreditApplication = () => {
 									: "Next"}
 						</button>
 						{section && (
-							<>
-								<button
-									type="button"
-									className="btn-dark sm:ml-auto md:mr-4"
-									onClick={() => {
-										if (
-											!confirm("Clear form? This will erase all entered data.")
-										)
-											return;
-										clearForm();
-									}}
-								>
-									Clear Form
-								</button>
-							</>
+							<button
+								type="button"
+								className="btn-dark sm:ml-auto md:mr-4"
+								onClick={() => {
+									if (!confirm("Clear form? This will erase all entered data."))
+										return;
+									clearForm();
+								}}
+							>
+								Clear Form
+							</button>
 						)}
 					</div>
 				) : (
-					loaded && <Link href={"/"}>Return to the homepage</Link>
+					<Link href={"/"}>Return to the homepage</Link>
 				)}
 			</form>
-			<Breadcrumb
+			<section
 				aria-label="Form state breadcrumbs"
 				className="mt-auto "
 				id="breadcrumb-nav"
@@ -187,29 +139,20 @@ const CreditApplication = () => {
 					const lookup = br.toUpperCase() as Uppercase<Section>;
 					const title: string = APPLICATION_STATES[lookup].title || br;
 					return (
-						<Breadcrumb.Item
+						<button
+							type="button"
 							key={br}
 							className="cursor-pointer"
 							onClick={() => {
-								const previous = breadcrumbs[i];
-								const newBreadcrumbs = breadcrumbs.slice(0, i);
-								dispatch({
-									type: "set",
-									value: newBreadcrumbs,
-									key: "breadcrumbs",
-								});
-								dispatch({
-									type: "set",
-									value: previous,
-									key: "section",
-								});
+								setBreadcrumbs(breadcrumbs.slice(0, i));
+								setSection(breadcrumbs[i]);
 							}}
 						>
 							{title}
-						</Breadcrumb.Item>
+						</button>
 					);
 				})}
-			</Breadcrumb>
+			</section>
 		</>
 	);
 };

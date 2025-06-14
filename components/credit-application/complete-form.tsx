@@ -1,11 +1,13 @@
-import { APPLICATION_STATES, useFormContext } from "@/lib/context";
+"use client"
+import { APPLICATION_STATES,} from "@/lib/context";
+import { useFormStore } from "@/lib/context/form/form-store";
 import type { ReferenceNumber } from "@/lib/context/form/sections";
 import { Fragment, useMemo } from "react";
 import { FaCheck } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
 
 export const CompleteFormSection = () => {
-	const { state, images, dispatch } = useFormContext();
+	const { state, images, setSection} = useFormStore();
 
 	const statuses = useMemo(() => {
 		const filterKey =
@@ -44,7 +46,7 @@ export const CompleteFormSection = () => {
 					const key = Number(title.slice(-1)) as ReferenceNumber;
 					complete = !!state[`phone_${key}`];
 				} else if (title === APPLICATION_STATES.PICTURES.title) {
-					complete = images.current.length === 3;
+					complete = images.length === 3;
 				}
 				return {
 					state: title,
@@ -55,10 +57,10 @@ export const CompleteFormSection = () => {
 		);
 
 		return states.filter((s) => !!s);
-	}, [state, images.current.length]);
+	}, [state, images.length]);
 
 	const returnToSection = (section: string) => {
-		dispatch({ type: "set", value: section, key: "section" });
+    setSection(section)
 	};
 
 	return (
