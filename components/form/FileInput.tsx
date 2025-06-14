@@ -1,15 +1,18 @@
 "use client";
-import { useFormContext } from "@/lib/context";
-import { FileInput, type FileInputProps, Label } from "flowbite-react";
+import { useFormStore } from "@/lib/context/form/form-store";
+import type { ProofsKeys } from "@/lib/context/form/sections";
+import type { CreditFormData } from "@/lib/context/form/sections/keys";
 import { Image } from "image-js";
-import { useCallback, useState, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
 export const FileInputWrapper = ({
 	title: key,
 	accept,
-}: { title: string; accept: FileInputProps["accept"] }) => {
-	const { images } = useFormContext();
+}: { title: ProofsKeys[number]; accept: string }) => {
+	const context = useFormContext<CreditFormData>();
+	const { images, setImages } = useFormStore();
 	const resultRef = useRef<HTMLDivElement>(null);
 	const fileRef = useRef<HTMLInputElement>(null);
 	const [state, setState] = useState<
@@ -17,8 +20,8 @@ export const FileInputWrapper = ({
 	>("idle");
 
 	const [lastProcessed, setLastProcessed] = useState<null | string | number>(
-		images.current.findIndex((i) => {
-			return i.name.startsWith(key);
+		images.findIndex((i) => {
+			return i.key === key;
 		}),
 	);
 
@@ -60,10 +63,7 @@ export const FileInputWrapper = ({
 							const blob = edit.toBlob();
 							blob.then((blob) => {
 								const filename = `${key}.png`;
-								images.dispatch({
-									type: "set",
-									image: new File([blob], filename),
-								});
+								setImages(new File([blob], filename), key);
 								setLastProcessed(filename);
 								setState("rendered");
 							});
@@ -74,18 +74,22 @@ export const FileInputWrapper = ({
 		}
 	}, [key, images, lastProcessed]);
 
-		useEffect(() => {
-		if (!fileRef.current) return;
-		if (fileRef.current.files?.length) {
-			return;
+	useEffect(() => {
+		try {
+			if (!fileRef.current) return;
+			if (fileRef.current.files?.length) {
+				return;
+			}
+			const thisImageIsSet = images.find((i) => i.key === key);
+			if (!thisImageIsSet) return;
+			setLastProcessed(key);
+			const container = new DataTransfer();
+			container.items.add(thisImageIsSet.file);
+			fileRef.current.files = container.files;
+			handleChange();
+		} catch {
+			// do nothing
 		}
-		const thisImageIsSet = images.current.find((i) => i.name.startsWith(key));
-		if (!thisImageIsSet) return;
-		setLastProcessed(thisImageIsSet.name);
-		const container = new DataTransfer();
-		container.items.add(thisImageIsSet);
-		fileRef.current.files = container.files;
-		handleChange();
 	}, [key, handleChange, images]);
 
 	useEffect(() => {
@@ -100,7 +104,7 @@ export const FileInputWrapper = ({
 
 	return (
 		<div className="flex w-full items-center justify-center text-gray-500 dark:text-gray-400 gap-y-2 flex-col sm:flex-row">
-			<Label
+			<label
 				htmlFor={key}
 				className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed"
 			>
@@ -112,8 +116,15 @@ export const FileInputWrapper = ({
 					</p>
 					<span>{accept}</span>
 				</div>
-				<FileInput id={key} className="hidden" ref={fileRef} accept={accept} />
-			</Label>
+				<input
+					type="file"
+					id={key}
+					className="hidden"
+					accept={accept}
+					ref={fileRef}
+					onChange={handleChange}
+				/>
+			</label>
 			{state !== "rendered" && state !== "idle" && <span>{state}</span>}
 			<div ref={resultRef} id="result" />
 		</div>

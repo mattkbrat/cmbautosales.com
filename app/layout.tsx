@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { HeaderNav } from "./HeaderNav";
-import clsx from "clsx";
-import { Footer } from "./Footer";
-import { Suspense } from "react";
-import { ThemeModeScript } from "flowbite-react";
 import { AuthProvider } from "@/lib/context/auth";
+import clsx from "clsx";
+import { Suspense } from "react";
+import { Footer } from "./Footer";
+import { HeaderNav } from "./HeaderNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +21,6 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head>
-				<ThemeModeScript />
-			</head>
 			<body
 				className={clsx(
 					inter.className,

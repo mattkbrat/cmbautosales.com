@@ -1,6 +1,8 @@
 "use server";
 
 import { getServerSession } from "@/lib/auth";
+import type { ImageProofData } from "@/lib/context/form/form-store";
+import type { CreditFormData } from "@/lib/context/form/sections/keys";
 import { FormErrors } from "@/lib/credit-application";
 import { prisma } from "@/lib/database";
 import { upload } from "@/lib/s3";
@@ -80,8 +82,7 @@ const checkAbuse = async ({
 	return uploadsInTimerange > threshold;
 };
 
-export const submitImage = async (formData: FormData) => {
-	const image = formData.getAll("image") as unknown as File[];
+export const submitImage = async (image: ImageProofData[]) => {
 	const timestamp = new Date().getTime();
 
 	const session = await getServerSession();
@@ -108,8 +109,8 @@ export const submitImage = async (formData: FormData) => {
 	}
 
 	for await (const i of image) {
-		console.log("Uploading image", i.name, userId);
-		await handleUpload({ image: i, userId, timestamp });
+		console.log("Uploading image", i.file.name, userId);
+		await handleUpload({ image: i.file, userId, timestamp });
 	}
 
 	return {

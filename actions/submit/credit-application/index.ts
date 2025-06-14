@@ -1,7 +1,7 @@
 "use server";
 
 import { getServerSession } from "@/lib/auth";
-import type { FormData } from "@/lib/context";
+import type { CreditFormData } from "@/lib/context/form/sections/keys";
 import { FormErrors } from "@/lib/credit-application";
 import { encrypt } from "@/lib/crypt";
 import { prisma } from "@/lib/database";
@@ -10,7 +10,7 @@ import type { CreditApplication } from "@prisma/client";
 export const submitCreditApp = async ({
 	data,
 }: {
-	data: FormData;
+	data: Partial<CreditFormData>;
 }) => {
 	const session = await getServerSession();
 

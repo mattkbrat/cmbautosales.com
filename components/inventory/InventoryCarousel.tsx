@@ -1,8 +1,8 @@
 "use client";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
 import NextImage from "next/image";
+import { Carousel } from "react-responsive-carousel";
 
 export const InventoryCarousel = ({
 	data,

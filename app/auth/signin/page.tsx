@@ -1,7 +1,7 @@
-import { SignInView } from "./SignInView";
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getProviders } from "@/lib/auth/getProviders";
+import { redirect } from "next/navigation";
+import { SignInView } from "./SignInView";
 
 export default async function SignIn(props: {
 	searchParams: Promise<{ callback?: string }>;

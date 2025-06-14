@@ -1,68 +1,34 @@
-import { APPLICATION_STATES, useFormContext } from "@/lib/context";
+"use client";
+import type { Section } from "@/lib/context";
+import { useFormStore } from "@/lib/context/form/form-store";
 import type { ReferenceNumber } from "@/lib/context/form/sections";
 import { Fragment, useMemo } from "react";
 import { FaCheck } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
 
 export const CompleteFormSection = () => {
-	const { state, images, dispatch } = useFormContext();
+	const { state, images, setSection } = useFormStore();
 
-	const statuses = useMemo(() => {
-		const filterKey =
+	const complete: Omit<
+		{ [key in Section]: boolean },
+		"applicable_form" | "introduction" | "complete" | "submit"
+	> = {
+		personal: !!state.lastName,
+		pictures: images.length === 3,
+		employment: !!state.supervisor,
+		housing:
 			state.housingOrRenting === "renting"
-				? APPLICATION_STATES.HOUSING.title
-				: APPLICATION_STATES.RENTING.title;
+				? !!state.rentPayment
+				: !!state.ownPayment,
+		references: !!(state.phone_1 && state.phone_2),
+	};
 
-		console.log({ state: state.housingOrRenting, filterKey });
-		const states = Object.entries(APPLICATION_STATES).map(
-			([k, { title, hash }]) => {
-				if (k === "PERSONAL") {
-				}
-				if (!k || !title) return null;
-
-				if (
-					title === filterKey ||
-					title === APPLICATION_STATES.INTRODUCTION.title ||
-					title === APPLICATION_STATES.APPLICABLE_FORM.title ||
-					title === APPLICATION_STATES.SUBMIT.title
-				) {
-					return null;
-				}
-
-				let complete = false;
-				if (title === APPLICATION_STATES.PERSONAL.title) {
-					complete = !!state.lastName;
-				} else if (title === APPLICATION_STATES.EMPLOYMENT.title) {
-					complete = !!state.supervisor;
-				} else if (title === APPLICATION_STATES.HOUSINGORRENTING.title) {
-					complete = true;
-				} else if (title === APPLICATION_STATES.HOUSING.title) {
-					complete = !!state.mortgage;
-				} else if (title === APPLICATION_STATES.RENTING.title) {
-					complete = !!state.landlordName;
-				} else if (title.startsWith("Reference")) {
-					const key = Number(title.slice(-1)) as ReferenceNumber;
-					complete = !!state[`phone_${key}`];
-				} else if (title === APPLICATION_STATES.PICTURES.title) {
-					complete = images.current.length === 3;
-				}
-				return {
-					state: title,
-					hash,
-					complete,
-				};
-			},
-		);
-
-		return states.filter((s) => !!s);
-	}, [state, images.current.length]);
-
-	const returnToSection = (section: string) => {
-		dispatch({ type: "set", value: section, key: "section" });
+	const returnToSection = (section: Section) => {
+		setSection(section);
 	};
 
 	return (
-		<div className="space-y-4">
+		<fieldset className="grid-cols-1">
 			{/* <pre>{JSON.stringify(statuses, null, 2)}</pre> */}
 			<h2 className="text-lg underline">Submit Form?</h2>
 			<div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 items-center">
@@ -70,18 +36,18 @@ export const CompleteFormSection = () => {
 					<span />
 					<span>Section</span>
 				</div>
-				{statuses.map(({ state, complete, hash }) => {
+				{Object.entries(complete).map(([k, complete]) => {
 					return (
-						<Fragment key={state}>
+						<Fragment key={k}>
 							<span>{complete ? <FaCheck /> : <FaX color="red" />}</span>
 							<button
 								type="button"
-								className="text-left"
+								className="text-left underline text-blue-600 cursor-pointer hover:text-blue-800"
 								onClick={() => {
-									returnToSection(hash);
+									returnToSection(k as Section);
 								}}
 							>
-								{state}
+								{k}
 							</button>
 						</Fragment>
 					);
@@ -101,7 +67,15 @@ export const CompleteFormSection = () => {
 					AUTORIZADO PARA INVESTIGAR MI HISTORIAL DE CRÉDITO Y EMPLEO Y PARA
 					DIVULGAR INFORMACIÓN.
 				</span>
+				<fieldset>
+					<legend>I confirm</legend>
+					<label className="flex">
+						<input type="checkbox" required />
+						By checking this box and clicking submit below, I agree to the above
+						terms.
+					</label>
+				</fieldset>
 			</section>
-		</div>
+		</fieldset>
 	);
 };

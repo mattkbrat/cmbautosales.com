@@ -1,7 +1,6 @@
 import { UserBar } from "@/components";
 import { checkUserExists } from "@/lib/auth";
 import { auth } from "@/lib/auth/auth";
-import { FormProvider } from "@/lib/context";
 import { redirect } from "next/navigation";
 
 const thisRoute = encodeURIComponent("/credit-application");
@@ -26,9 +25,7 @@ const CreditApplicationLayout = async ({
 					<hr />
 					<UserBar intro="Submitting as" user={session.user} />
 				</section>
-				<div className="flex flex-col flex-1">
-					<FormProvider form={"credit"}>{children}</FormProvider>
-				</div>
+				<div className="flex flex-col flex-1">{children}</div>
 			</div>
 		</div>
 	);

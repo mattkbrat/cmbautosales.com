@@ -2,7 +2,7 @@
 
 export const Introduction = () => {
 	return (
-		<>
+		<fieldset className="grid-cols-1">
 			<p>
 				Before you continue this form, please be aware that you will need the
 				following information:
@@ -60,6 +60,6 @@ export const Introduction = () => {
 				<br />
 				<b>Ensure you hit SUBMIT at the end of the form</b>
 			</p>
-		</>
+		</fieldset>
 	);
 };

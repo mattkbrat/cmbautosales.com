@@ -8,9 +8,14 @@ export function getProviders(): Provider[] {
 	);
 }
 
-function getKeyValuesFromObject<T>(obj: any, keys: (keyof T)[]): T {
+function getKeyValuesFromObject<T>(
+	obj: (typeof authConfig)["providers"][number],
+	keys: (keyof T)[],
+): T {
 	return keys.reduce((acc, key) => {
+		// @ts-expect-error: this is fine
 		if (obj[key]) {
+			// @ts-expect-error: this is fine
 			acc[key] = obj[key];
 		}
 		return acc;

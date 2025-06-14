@@ -1,9 +1,9 @@
 "use client";
 
-import { Menu, MenuItem, MenuButton } from "@szhsin/react-menu";
-import { CiMenuBurger } from "react-icons/ci";
-import Link from "next/link";
 import { useInventoryContext } from "@/lib/context";
+import { Menu, MenuButton, MenuItem } from "@szhsin/react-menu";
+import Link from "next/link";
+import { CiMenuBurger } from "react-icons/ci";
 
 export const TitleMenu = () => {
 	const { titles } = useInventoryContext();
@@ -12,9 +12,7 @@ export const TitleMenu = () => {
 			className={"text-right grid z-10 items-end text-xl "}
 			menuButton={
 				<MenuButton
-					className={
-						"ml-auto mr-4  min-w-max flex flex-row gap-2 px-2 text-xl"
-					}
+					className={"ml-auto mr-4  min-w-max flex flex-row gap-2 px-2 text-xl"}
 				>
 					Inv List <CiMenuBurger />
 				</MenuButton>
