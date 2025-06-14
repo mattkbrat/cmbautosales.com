@@ -8,7 +8,7 @@ import type { CreditFormData } from "@/lib/context/form/sections/keys";
 import { FormErrors } from "@/lib/credit-application";
 import Link from "next/link";
 
-import { useDeferredValue, useEffect } from "react";
+import { useDeferredValue, useEffect, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 const CreditApplication = () => {
@@ -28,6 +28,7 @@ const CreditApplication = () => {
 	const sectionRef = useDeferredValue(section);
 
 	const methods = useForm<CreditFormData>();
+	const setValue = useRef(methods.setValue);
 	// biome-ignore lint/correctness/useExhaustiveDependencies: We only want to update the nav when breadcrumbs changes
 	useEffect(() => {
 		const el = document.getElementById("breadcrumb-nav");
@@ -41,14 +42,13 @@ const CreditApplication = () => {
 	const formSelection = methods.watch("formSelection");
 
 	useEffect(() => {
-		if (state.formSelection && !formSelection) {
-			for (const k in state) {
-				const key = k as keyof CreditFormData;
-				const v = state[key] as CreditFormData[keyof CreditFormData];
-				methods.setValue(key, v);
-			}
+		if (!state.formSelection || formSelection) return;
+		for (const k in state) {
+			const key = k as keyof CreditFormData;
+			const v = state[key] as CreditFormData[keyof CreditFormData];
+			setValue.current(key, v);
 		}
-	}, [state.formSelection, formSelection]);
+	}, [formSelection, state, methods.setValue]);
 
 	return (
 		<>

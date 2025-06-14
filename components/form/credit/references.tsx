@@ -11,7 +11,7 @@ const ReferenceForm = ({ number }: { number: ReferenceNumber }) => {
 				<legend>Contact #{number}</legend>
 
 				<label>
-					Contact's Name
+					Contact&apos;s Name
 					<input {...context.register(`name_${number}`)} required={required} />
 				</label>
 				<label>

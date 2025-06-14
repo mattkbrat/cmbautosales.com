@@ -46,11 +46,11 @@ export const HousingSection = () => {
 				<fieldset>
 					<legend>Renting Information</legend>
 					<label>
-						Landlord's Name
+						Landlord&apos;s Name
 						<input {...context.register("landlordName")} required />
 					</label>
 					<label>
-						Landlord's Phone Number
+						Landlord&apos;s Phone Number
 						<input type="tel" {...context.register("landlordPhone")} required />
 					</label>
 				</fieldset>

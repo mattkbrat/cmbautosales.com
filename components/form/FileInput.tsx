@@ -1,7 +1,7 @@
 "use client";
 import { useFormStore } from "@/lib/context/form/form-store";
 import type { ProofsKeys } from "@/lib/context/form/sections";
-import { type CreditFormData, FormKey } from "@/lib/context/form/sections/keys";
+import type { CreditFormData } from "@/lib/context/form/sections/keys";
 import { Image } from "image-js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -121,8 +121,8 @@ export const FileInputWrapper = ({
 					id={key}
 					className="hidden"
 					accept={accept}
-					{...context.register(key)}
 					ref={fileRef}
+					onChange={handleChange}
 				/>
 			</label>
 			{state !== "rendered" && state !== "idle" && <span>{state}</span>}

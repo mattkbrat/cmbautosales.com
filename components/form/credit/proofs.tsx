@@ -14,7 +14,7 @@ export const ProofsSection = () => {
 			</label>
 			<label>
 				<span>
-					Driver's License
+					Driver&apos;s License
 					<br />
 					Licencia
 				</span>

@@ -1,4 +1,4 @@
-import type { ArrayElement, InputMap } from "@/types";
+import type { ArrayElement } from "@/types";
 
 export const sections = [
 	"introduction",
