@@ -112,6 +112,7 @@
 	.text-balance {
 		text-wrap: balance;
 	}
+
 	.bg-surface {
 		@apply bg-gray-100/70;
 	}
@@ -127,6 +128,7 @@
 		display: flex;
 		justify-content: center;
 	}
+
 	.carousel .thumb img {
 		width: 100% !important;
 		height: 100% !important;
@@ -142,32 +144,44 @@
 		@apply border-b-blue-400 border-b-1 px-2 rounded-t-lg text-lg font-bold text-gray-900;
 	}
 
+	.form {
+		fieldset {
+			@apply grid grid-cols-[auto_1fr] md:grid-cols-[auto_auto_1fr];
+			@apply bg-gray-100/70;
+			@apply rounded-lg gap-2 border-black border-l-2 p-4;
+		}
+
+		label {
+			@apply text-wrap grid grid-cols-subgrid col-span-full gap-2;
+		}
+
+		input {
+			@apply !bg-gray-100/70 border !border-gray-300 rounded-lg px-4 py-2 text-black col-span-full md:col-span-1;
+		}
+
+		label:has(input:required):before {
+			content: " *";
+			color: red;
+		}
+
+		label:not(:has(input:required)):before {
+			content: " ";
+		}
+	}
+
 	.form > .header > div {
 		@apply rounded-b-lg;
 		/* @apply px-4 py-2; */
 	}
 
-	.bg-darkblue-transparent,
-	.form-section {
+	.bg-darkblue-transparent {
 		@apply bg-gray-100/70;
-	}
-
-	.form-section {
-		@apply flex flex-col rounded-lg gap-2 border-black border-l-2 p-4;
-	}
-
-	.form-section > * > label {
-		@apply flex flex-row;
-	}
-
-	input {
-		@apply !bg-gray-100/70 border !border-gray-300 rounded-lg px-4 py-2 text-black;
 	}
 
 	.button,
 	.btn-dark,
 	.btn-dark-bg {
-		@apply outline-2 px-8 py-2   rounded-lg font-extrabold;
+		@apply outline-2 px-8 py-2 rounded-lg font-extrabold;
 	}
 
 	/* .my-menu {

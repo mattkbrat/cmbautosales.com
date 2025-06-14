@@ -14,6 +14,7 @@ type InternalKey =
 	| "confirm";
 
 export type FormKeys =
+	| InternalKey
 	| PersonalKeys
 	| HousingKeys
 	| RentingKeys

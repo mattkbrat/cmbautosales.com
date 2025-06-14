@@ -1,13 +1,17 @@
 "use client";
 import { useFormStore } from "@/lib/context/form/form-store";
+import type { ProofsKeys } from "@/lib/context/form/sections";
+import { type CreditFormData, FormKey } from "@/lib/context/form/sections/keys";
 import { Image } from "image-js";
-import { useCallback, useState, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
 export const FileInputWrapper = ({
 	title: key,
 	accept,
-}: { title: string; accept: string}) => {
+}: { title: ProofsKeys[number]; accept: string }) => {
+	const context = useFormContext<CreditFormData>();
 	const { images, setImages } = useFormStore();
 	const resultRef = useRef<HTMLDivElement>(null);
 	const fileRef = useRef<HTMLInputElement>(null);
@@ -59,10 +63,7 @@ export const FileInputWrapper = ({
 							const blob = edit.toBlob();
 							blob.then((blob) => {
 								const filename = `${key}.png`;
-                setImages(
-                  new File([blob], filename),
-                  key
-                )
+								setImages(new File([blob], filename), key);
 								setLastProcessed(filename);
 								setState("rendered");
 							});
@@ -73,18 +74,22 @@ export const FileInputWrapper = ({
 		}
 	}, [key, images, lastProcessed]);
 
-		useEffect(() => {
-		if (!fileRef.current) return;
-		if (fileRef.current.files?.length) {
-			return;
+	useEffect(() => {
+		try {
+			if (!fileRef.current) return;
+			if (fileRef.current.files?.length) {
+				return;
+			}
+			const thisImageIsSet = images.find((i) => i.key === key);
+			if (!thisImageIsSet) return;
+			setLastProcessed(key);
+			const container = new DataTransfer();
+			container.items.add(thisImageIsSet.file);
+			fileRef.current.files = container.files;
+			handleChange();
+		} catch {
+			// do nothing
 		}
-		const thisImageIsSet = images.find((i) => i.key === key);
-		if (!thisImageIsSet) return;
-		setLastProcessed(key);
-		const container = new DataTransfer();
-		container.items.add(thisImageIsSet.file);
-		fileRef.current.files = container.files;
-		handleChange();
 	}, [key, handleChange, images]);
 
 	useEffect(() => {
@@ -111,7 +116,14 @@ export const FileInputWrapper = ({
 					</p>
 					<span>{accept}</span>
 				</div>
-				<input type="file" id={key} className="hidden" ref={fileRef} accept={accept} />
+				<input
+					type="file"
+					id={key}
+					className="hidden"
+					accept={accept}
+					{...context.register(key)}
+					ref={fileRef}
+				/>
 			</label>
 			{state !== "rendered" && state !== "idle" && <span>{state}</span>}
 			<div ref={resultRef} id="result" />

@@ -1,48 +1,42 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import {
-	APPLICATION_STATES,
-	type ApplicationHash,
-	applicationRouteData,
-} from "./credit-application";
+import { type Section, sections } from "./credit-application";
 import type { FormKey } from "./sections";
 
 type State = { [key in FormKey]?: string };
+export type ImageProofData = { file: File; key: string };
 type FormState = {
-	breadcrumbs: ApplicationHash[];
-	section: string;
+	breadcrumbs: Section[];
+	section: Section;
 	id: number | null;
-	images: { file: File; key: string }[];
+	images: ImageProofData[];
 	state: State;
 	dispatch: (state: Partial<State>) => void;
-	setBreadcrumbs: (breadcrumbs?: ApplicationHash[]) => void;
-	setSection: (section: string) => void;
+	setBreadcrumbs: (breadcrumbs?: Section[]) => void;
+	setSection: (section: Section) => void;
 	setId: (id: number) => void;
 	setImages: (file: File, key: string) => void;
 	removeImage: (index: number) => void;
 	resetImages: () => void;
 	clear: () => void;
-	getNext: () => null | string;
+	getNext: () => null | Section;
 	getSelected: () => null | number;
 };
 
 export const useFormStore = create<FormState>()(
 	persist(
 		(set, get) => ({
-			breadcrumbs: [APPLICATION_STATES?.INTRODUCTION?.hash],
-			section: APPLICATION_STATES?.INTRODUCTION?.hash,
+			breadcrumbs: ["introduction"],
+			section: "introduction",
 			id: null,
 			setId: (id) => set({ id }),
 			images: [],
 			dispatch: (state) => set({ state }),
-			state: {
-				formSelection: "",
-				housingOrRenting: "housing",
-			},
+			state: {},
 			clear: () => {
 				set({
-					breadcrumbs: [APPLICATION_STATES.INTRODUCTION.hash],
-					section: APPLICATION_STATES.INTRODUCTION.hash,
+					breadcrumbs: ["introduction"],
+					section: "introduction",
 					images: [],
 				});
 			},
@@ -63,7 +57,7 @@ export const useFormStore = create<FormState>()(
 				set({ images: newImages });
 			},
 			resetImages: () => set({ images: [] }),
-			setBreadcrumbs: (b?: ApplicationHash[]) => {
+			setBreadcrumbs: (b) => {
 				if (b) {
 					set({ breadcrumbs: b });
 					return;
@@ -73,13 +67,12 @@ export const useFormStore = create<FormState>()(
 
 				const breadcrumbs = b ?? curr;
 
-				const sectionTyped = section as ApplicationHash;
-				const sectionIndex = breadcrumbs.indexOf(sectionTyped);
+				const sectionIndex = breadcrumbs.indexOf(section);
 				const newBreadcrumbs = [...breadcrumbs];
 				if (sectionIndex !== -1) {
 					newBreadcrumbs.splice(sectionIndex, 1);
 				}
-				newBreadcrumbs.push(sectionTyped);
+				newBreadcrumbs.push(section);
 				if (newBreadcrumbs.slice(-1)[0] === breadcrumbs.slice(-1)[0]) {
 					return;
 				}
@@ -87,12 +80,7 @@ export const useFormStore = create<FormState>()(
 			},
 			getSelected: () => {
 				const { section } = get();
-				const curr = applicationRouteData.findIndex((r) => r.hash === section);
-				if (curr === -1) {
-					return null;
-				}
-
-				return curr;
+				return sections.indexOf(section);
 			},
 			// getNext: () => {
 
@@ -101,26 +89,11 @@ export const useFormStore = create<FormState>()(
 			//   return applicationRouteData[selected].next;
 			// },
 			getNext: () => {
-				const { getSelected, state, section } = get();
-				const selected = getSelected();
-				if (selected === null) return null;
-				const next = applicationRouteData[selected]?.next;
-				if (applicationRouteData[selected].next) {
-					return next ?? "";
-				}
-				if (section === APPLICATION_STATES.APPLICABLE_FORM.hash) {
-					return state.formSelection ?? "";
-				}
-
-				if (section === APPLICATION_STATES.HOUSINGORRENTING.hash) {
-					return state.housingOrRenting ?? "";
-				}
-
-				return (
-					applicationRouteData[selected + 1]?.hash ??
-					APPLICATION_STATES.APPLICABLE_FORM.hash ??
-					""
-				);
+				const { section } = get();
+				const index = sections.indexOf(section);
+				if (index === -1) return "introduction";
+				if (index === sections.length) return "complete";
+				return sections[index + 1];
 			},
 
 			setSection: (s) => {
