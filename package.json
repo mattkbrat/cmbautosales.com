@@ -9,9 +9,9 @@
 		"lint": "next lint",
 		"pull": "prisma db pull",
 		"generate": "prisma generate",
-		"format": "biome format package.json ./app ./types ./lib --write",
-		"check": "biome check package.json ./app ./types ./lib",
-		"check:write": "biome check package.json ./app ./types ./lib --write"
+		"format": "biome format   --write",
+		"check": "biome check  ",
+		"check:write": "biome check   --write"
 	},
 	"dependencies": {
 		"@auth/prisma-adapter": "^2.9.1",

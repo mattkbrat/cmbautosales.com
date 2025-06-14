@@ -1,8 +1,8 @@
-import { s3Client } from ".";
 import {
 	PutObjectCommand,
 	type PutObjectCommandInput,
 } from "@aws-sdk/client-s3";
+import { s3Client } from ".";
 import { env } from "../env";
 
 const bucketName = env.CREDIT_APPLICATIONS_BUCKET;

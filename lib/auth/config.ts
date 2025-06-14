@@ -1,8 +1,8 @@
 import { env } from "@/lib/env";
 
-import GoogleProvider from "next-auth/providers/google";
-import GitHubProvider from "next-auth/providers/github";
 import type { NextAuthConfig } from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authConfig = {
 	debug: true,

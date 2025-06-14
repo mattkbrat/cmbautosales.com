@@ -31,3 +31,5 @@ export type FormKey =
 	| ReferenceKeys<5>[number]
 	| ReferenceKeys<6>[number]
 	| InternalKey;
+
+export type CreditFormData = { [key in FormKey]: string };

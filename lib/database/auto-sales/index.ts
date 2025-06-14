@@ -1,7 +1,7 @@
 import "server-only";
 
-import { prisma } from "..";
 import type { Prisma } from "@prisma/client";
+import { prisma } from "..";
 
 const isNum = (id: string | number) => !Number.isNaN(Number(id));
 

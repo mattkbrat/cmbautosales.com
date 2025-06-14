@@ -1,9 +1,9 @@
 "use client";
 
 import { useInventoryContext } from "@/lib/context/inventory/InventoryContext";
+import Link from "next/link";
 import { InventoryCarousel } from "./InventoryCarousel";
 import { InventoryDetails } from "./InventoryDetails";
-import Link from "next/link";
 
 export const InventoryGrid = () => {
 	const { inventory } = useInventoryContext();

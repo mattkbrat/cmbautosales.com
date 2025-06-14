@@ -1,7 +1,7 @@
 "use client";
-import { getTitles, type InvTitles } from "@/lib/cars-for-sale";
+import { type InvTitles, getTitles } from "@/lib/cars-for-sale";
 import type { Inventory } from "@/types";
-import { createContext, useContext, useMemo, type ReactNode } from "react";
+import { type ReactNode, createContext, useContext, useMemo } from "react";
 
 export type InventoryContextType = {
 	titles: InvTitles;

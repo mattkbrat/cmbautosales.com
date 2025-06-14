@@ -18,35 +18,30 @@ export const UserBar = ({
 					</div>
 				</div>
 				<div className="mt-auto">
-
-			<button
-				type="button"
-				className="flex gap-2 underline "
-				onClick={() => {
-					signOut();
-				}}
-			>
-				<span>Not you?</span>
-				<GoSignOut />
-			</button>
+					<button
+						type="button"
+						className="flex gap-2 underline "
+						onClick={() => {
+							signOut();
+						}}
+					>
+						<span>Not you?</span>
+						<GoSignOut />
+					</button>
 				</div>
-
 			</div>
-			<div className="grid">
-
-
-			</div>
-				{user.image ? (
-					<Image
-						src={user.image}
-						height={400}
-						width={400}
-						alt="user profile image"
-						className="row-span-2 h-auto md:h-full md:w-auto md:ml-auto mr-4 self-center"
-					/>
-				) : (
-					<span />
-				)}
+			<div className="grid"></div>
+			{user.image ? (
+				<Image
+					src={user.image}
+					height={400}
+					width={400}
+					alt="user profile image"
+					className="row-span-2 h-auto md:h-full md:w-auto md:ml-auto mr-4 self-center"
+				/>
+			) : (
+				<span />
+			)}
 		</div>
 	);
 };
