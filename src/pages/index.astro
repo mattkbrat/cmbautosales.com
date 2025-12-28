@@ -1,16 +1,52 @@
 ---
-
+import {
+  DollarSignIcon,
+  ExternalLinkIcon,
+  FormIcon,
+  PhoneCallIcon,
+} from "@lucide/astro";
+import Layout from "../layouts/root.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  class:list={"bg-black"}
+  title="CMB Auto Sales"
+  description="Welcome to CMB Auto Sales, your trusted auto dealership since 1946."
+>
+  <div class="flex flex-col md:flex-1 container">
+    <section
+      class="sm:h-screen gap-y-8 w-full justify-center items-center flex flex-col py-4"
+    >
+      <div class="gap-y-2 flex flex-col px-4">
+        <h1 class="text-5xl font-black">CMB AUTO SALES</h1>
+        <p class="font-semibold text-xl">
+          Auto Dealership, Family Owned Since 1946
+        </p>
+      </div>
+      <div class="flex gap-4 justify-center flex-wrap" id="home-links">
+        <a
+          href="/credit-application"
+          rel="noreferrer"
+          class="item outline-blue-600"
+        >
+          <FormIcon />
+          Submit A Credit<br class="hidden lg:inline" /> Application
+        </a>
+        <a
+          class="item outline-green-400 bg-green-600 text-white"
+          href="https://square.link/u/ygsBffh1"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <DollarSignIcon />
+          Make a Payment
+          <ExternalLinkIcon size={16} />
+        </a>
+        <a class="item" href="tel:+19708676156">
+          <PhoneCallIcon />
+          Contact Us
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,74 @@
+---
+import { MenuIcon } from "@lucide/astro";
+---
+
+<script>
+  const contact = document.querySelector("li:nth-child(2)");
+  const home = document.querySelector("li:nth-child(1)");
+
+  /**
+   * Toggle visibility of the navigation menu
+   * @param {boolean} homeVisible
+   */
+  function toggleVisible(homeVisible) {
+    if (homeVisible) {
+      contact?.classList.add("active");
+      home?.classList.remove("active");
+
+      return;
+    }
+    contact?.classList.remove("active");
+    home?.classList.add("active");
+  }
+
+  addEventListener("hashchange", (_event) => {
+    const { hash, pathname: path } = window.location;
+    toggleVisible(hash === "#contact");
+  });
+  addEventListener("scroll", (_event) => {
+    const y = window.scrollY;
+    toggleVisible(y > 0);
+  });
+</script>
+
+<nav
+  class="items-end w-fit sm:w-full lg:w-fit self-end sm:items-start sm:self-start z-10 sticky top-0 sm:block container mx-auto"
+  id="nav-menu"
+  popover
+>
+  <ul
+    class="bg-surface overflow-y-clip h-fit lg:h-screen border-r-blue-600 border-0 lg:border-r grid sm:flex lg:flex-col flex-row justify-center sm:sticky left-0 top-0 items-end uppercase lg:pl-4 text-xl gap-x-8 text-right"
+  >
+    <li class="active">
+      <a href="/#" class="item">Home</a>
+    </li>
+    <li>
+      <a href="/#contact" class="item">Contact</a>
+    </li>
+    <li>
+      <a href="/credit-application" class="item">Credit App</a>
+    </li>
+  </ul>
+</nav>
+<button
+  popovertarget="nav-menu"
+  class="text-right flex gap-1 sm:hidden z-10 bg-surface self-end ml-4 mt-2 mr-1.25"
+  >CMB Auto Sales <MenuIcon /></button
+>
+
+<style>
+  #nav-menu:popover-open {
+    position: absolute;
+    display: grid;
+    text-align: right;
+    inset: unset;
+    right: 5px;
+    margin: 0;
+    top: 2.1rem;
+    background-color: color-mix(
+      in oklab,
+      var(--color-gray-100) 70%,
+      transparent
+    );
+  }
+</style>

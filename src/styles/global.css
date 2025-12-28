@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  body {
+    @apply antialiased text-gray-900;
+    background-image:
+      radial-gradient(
+        ellipse at center,
+        var(--color-blue-50) 0%,
+        var(--color-blue-100) 50%,
+        var(--color-blue-200) 100%
+      ),
+      radial-gradient(
+        ellipse at center,
+        var(--color-gray-50) 0%,
+        var(--color-gray-100) 50%,
+        var(--color-gray-200) 100%
+      );
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@layer components {
+  #home-links .item {
+    @apply uppercase flex flex-row gap-x-1 p-2 w-max font-semibold decoration-blue-800 transition-[font-weight] duration-[20] hover:font-black outline-2 rounded-full px-6;
+    @apply place-self-center items-center;
+  }
+  nav li {
+    @apply hover:bg-blue-500 hover:text-white;
+  }
+  nav .item {
+    @apply px-4 py-2 flex-1 lg:flex-none text-center   w-full lg:text-right;
+  }
+
+  nav .active {
+    @apply border-blue-500 font-bold md:border-b-2 lg:border-b-0 lg:border-r-2;
+  }
+}
+
+@layer utilities {
+  .bg-surface {
+    @apply bg-blue-50;
+  }
+}

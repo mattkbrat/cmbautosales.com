@@ -1,0 +1,22 @@
+---
+import BaseHeader from "../components/base-header.astro";
+import Footer from "../components/footer.astro";
+import BaseHead from "../components/base-head.astro";
+const { title, description } = Astro.props;
+import "../styles/global.css";
+---
+
+<html lang="en">
+  <BaseHead title={title} description={description} />
+  <body class="flex min-h-screen lg:flex-row flex-col relative overflow-x-clip">
+    <BaseHeader />
+    <div class="flex-1">
+      <main
+        class="flex lg:flex-row flex-col relative overflow-x-clip min-h-dvh justify-center items-center"
+      >
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>
