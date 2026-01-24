@@ -4,6 +4,7 @@ import {
   ExternalLinkIcon,
   FormIcon,
   PhoneCallIcon,
+  InfoIcon,
 } from "@lucide/astro";
 import Layout from "../layouts/root.astro";
 ---
@@ -13,25 +14,17 @@ import Layout from "../layouts/root.astro";
   title="CMB Auto Sales"
   description="Welcome to CMB Auto Sales, your trusted auto dealership since 1946."
 >
-  <div class="flex flex-col md:flex-1 container">
+  <div class="flex flex-col md:flex-1 container px-4">
     <section
       class="sm:h-screen gap-y-8 w-full justify-center items-center flex flex-col py-4"
     >
-      <div class="gap-y-2 flex flex-col px-4">
+      <div class="gap-y-2 flex flex-col">
         <h1 class="text-5xl font-black">CMB AUTO SALES</h1>
         <p class="font-semibold text-xl">
           Auto Dealership, Family Owned Since 1946
         </p>
       </div>
-      <div class="flex gap-4 justify-center flex-wrap" id="home-links">
-        <a
-          href="/credit-application"
-          rel="noreferrer"
-          class="item outline-blue-600"
-        >
-          <FormIcon />
-          Submit A Credit<br class="hidden lg:inline" /> Application
-        </a>
+      <div class="flex flex-col gap-4 justify-center" id="home-links">
         <a
           class="item outline-green-400 bg-green-600 text-white"
           href="https://square.link/u/ygsBffh1"
@@ -40,12 +33,35 @@ import Layout from "../layouts/root.astro";
         >
           <DollarSignIcon />
           Make a Payment
-          <ExternalLinkIcon size={16} />
+          <ExternalLinkIcon class="size-4" />
         </a>
         <a class="item" href="tel:+19708676156">
           <PhoneCallIcon />
           Contact Us
         </a>
+        <a
+          href="https://cmb.autoflp.com/credit-applications"
+          rel="noreferrer"
+          class="item outline-blue-600 flex-1"
+        >
+          <FormIcon />
+          <span>
+            <span class="flex gap-2">
+              Submit A Credit Application <InfoIcon class="size-4" />
+            </span>
+          </span>
+        </a>
+      </div>
+
+      <div class="flex gap-2">
+        <InfoIcon class="size-4" />
+        <p class="text-sm font-light">
+          We partner with AutoFLP to deliver advanced functionality.
+          <span class="flex gap-[1ch]">
+            You will be redirected to our partner site.
+            <ExternalLinkIcon class="size-4" />
+          </span>
+        </p>
       </div>
     </section>
   </div>

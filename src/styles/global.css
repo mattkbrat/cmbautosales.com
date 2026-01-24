@@ -27,7 +27,7 @@
 
 @layer components {
   #home-links .item {
-    @apply uppercase flex flex-row gap-x-1 p-2 w-max font-semibold decoration-blue-800 transition-[font-weight] duration-[20] hover:font-black outline-2 rounded-full px-6;
+    @apply text-lg uppercase flex flex-row gap-x-2 p-2 w-full font-semibold decoration-blue-800 transition-[font-weight] duration-[20] hover:font-black outline-2 rounded-full px-6;
     @apply place-self-center items-center;
   }
   nav li {
