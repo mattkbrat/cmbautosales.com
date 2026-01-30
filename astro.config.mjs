@@ -12,4 +12,10 @@ export default defineConfig({
   },
   output: 'static',
   adapter: vercel({}),
+  redirects: {
+    "/credit-application": {
+      status: 302,
+      destination: "https://cmb.autoflp.com/credit-applications"
+    }
+  }
 });
